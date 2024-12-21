@@ -1,4 +1,7 @@
 <?php
+use App\Http\Controllers\Admin\InventoryController;
+// use App\Http\Controllers\Admin\BrandController;
+
 Route::get('/', 'TicketController@create');
 Route::get('/home', function () {
     $route = Gate::denies('dashboard_access') ? 'admin.tickets.index' : 'admin.home';
@@ -8,8 +11,10 @@ Route::get('/home', function () {
 
     return redirect()->route($route);
 });
+Auth::routes();
+Route::get('register', 'Auth\RegisterController@showRegistrationForm')->name('register');
+Route::post('register', 'Auth\RegisterController@register');
 
-Auth::routes(['register' => false]);
 
 Route::post('tickets/media', 'TicketController@storeMedia')->name('tickets.storeMedia');
 Route::post('tickets/comment/{ticket}', 'TicketController@storeComment')->name('tickets.storeComment');
@@ -46,6 +51,13 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::post('tickets/media', 'TicketsController@storeMedia')->name('tickets.storeMedia');
     Route::post('tickets/comment/{ticket}', 'TicketsController@storeComment')->name('tickets.storeComment');
     Route::resource('tickets', 'TicketsController');
+
+    // Inventory
+    Route::delete('inventory/destroy', 'InventoryController@massDestroy')->name('inventory.massDestroy');
+    Route::resource('inventory', 'InventoryController');
+    Route::post('/inventory/store', [InventoryController::class, 'store'])->name('inventories.store');
+
+
 
     // Comments
     Route::delete('comments/destroy', 'CommentsController@massDestroy')->name('comments.massDestroy');

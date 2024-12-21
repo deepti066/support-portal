@@ -153,6 +153,22 @@ return [
             'attachments_helper'      => '',
         ],
     ],
+
+    'inventory' => [
+            'title' => 'Inventory',
+            'title_singular' => 'Inventory',
+            'fields' => [
+                'id' => 'ID',
+                'serial_no' => 'Serial_No',
+                'product_name' => 'Product Name',
+                'invoice_date' => 'Invoice_Date',
+                'invoice_no' => 'Invoice No',
+                'make' => 'Make',
+                'model' => 'Model',
+            ],
+        ],
+
+
     'comment'        => [
         'title'          => 'Comments',
         'title_singular' => 'Comment',
