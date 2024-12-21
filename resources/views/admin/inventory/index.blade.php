@@ -25,11 +25,13 @@
                     <th>{{ trans('cruds.inventory.fields.serial_no') }}</th>
                     <th>{{ trans('cruds.inventory.fields.product_name') }}</th>
                     <th>{{ trans('cruds.inventory.fields.invoice_no') }}</th>
+                    <th>{{ trans('cruds.inventory.fields.invoice_date') }}</th>
                     <th>{{ trans('cruds.inventory.fields.make') }}</th>
                     <th>{{ trans('cruds.inventory.fields.model') }}</th>
                     <th>{{ trans('global.actions') }}</th>
                 </tr>
             </thead>
+            
         </table>
     </div>
 </div>
@@ -39,6 +41,16 @@
 @parent
 <script>
     $(function () {
+        let filters = `
+<form class="form-inline" id="filtersForm">
+  <div class="form-group mx-sm-3 mb-2">
+   <input name="product" >
+  </div>
+
+</form>`;
+$('.card-body').on('change', 'select', function() {
+  $('#filtersForm').submit();
+})
         let dtButtons = []
         @can('inventory_delete')
         let deleteButtonTrans = '{{ trans('global.datatables.delete') }}'
@@ -61,16 +73,15 @@
                         headers: {'x-csrf-token': _token},
                         method: 'POST',
                         url: config.url,
-                        data: { ids: ids, _method: 'DELETE' }
-                    })
-                    .done(function () { location.reload() })
+                        data: { ids: ids, _method: 'DELETE' }})
+                        .done(function () { location.reload() })
                 }
             }
         }
         dtButtons.push(deleteButton)
         @endcan
 
-        // let searchParams = new URLSearchParams(window.location.search)
+       let searchParams = new URLSearchParams(window.location.search)
         let dtOverrideGlobals = {
             buttons: dtButtons,
             processing: true,
@@ -86,36 +97,9 @@
     //   }
     },
     columns: [
-      { data: 'placeholder', name: 'placeholder' },
-{ data: 'id', name: 'id' },
-{
-    data: 'title',
-    name: 'title', 
-    render: function ( data, type, row) {
-        return '<a href="'+row.view_link+'">'+data+' ('+row.comments_count+')</a>';
-    }
-},
-{ 
-  data: 'status_name', 
-  name: 'status.name', 
-  render: function ( data, type, row) {
-      return '<span style="color:'+row.status_color+'">'+data+'</span>';
-  }
-},
-{ 
-  data: 'priority_name', 
-  name: 'priority.name', 
-  render: function ( data, type, row) {
-      return '<span style="color:'+row.priority_color+'">'+data+'</span>';
-  }
-},
-{ 
-  data: 'category_name', 
-  name: 'category.name', 
-  render: function ( data, type, row) {
-      return '<span style="color:'+row.category_color+'">'+data+'</span>';
-  } 
-},
+      
+
+    { data: 'placeholder', name: 'placeholder' },
 { data: 'id', name: 'id' },
 { data: 'serial_no', name: 'serial_no' },
 { data: 'product_name', name: 'product_name' },
@@ -125,11 +109,11 @@
 { data: 'model', name: 'model' },
 { data: 'actions', name: '{{ trans('global.actions') }}' }
     ],
-    order: [[ 1, 'desc' ]],
+    order: [[ 4, 'ASC' ]],
     pageLength: 100,
   };    
 $(".datatable-Inventory").one("preInit.dt", function () {
- $(".dataTables_filter").after(filters);
+//  $(".dataTables_filter").after(filters);
 });
   $('.datatable-Inventory').DataTable(dtOverrideGlobals);
     $('a[data-toggle="tab"]').on('shown.bs.tab', function(e){

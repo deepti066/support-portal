@@ -15,6 +15,7 @@ class Inventory extends Model
         'serial_no',
         'product_name',
         'invoice_no',
+        'invoice_date',
         'make',
         'model',
     ];

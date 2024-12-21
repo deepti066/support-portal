@@ -3,15 +3,75 @@ namespace App\Http\Controllers\Admin;
 
 use App\Inventory; 
 use App\Brand;
+use Gate;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreInventoryRequest;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Response;
+use Symfony\Component\HttpFoundation\Response;
+use Yajra\DataTables\Facades\DataTables;
 
 class InventoryController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        abort_if(Gate::denies('status_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        if ($request->ajax()) {
+            $query = Inventory::select("*");
+            $table = Datatables::of($query);
+
+              $table->addColumn('placeholder', '&nbsp;');
+            $table->addColumn('actions', '&nbsp;');
+
+            $table->editColumn('actions', function ($row) {
+                $viewGate      = 'inventory_show';
+                $editGate      = 'inventory_edit';
+                $deleteGate    = 'inventory_delete';
+                $crudRoutePart = 'inventory';
+
+                return view('partials.datatablesActions', compact(
+                    'viewGate',
+                    'editGate',
+                    'deleteGate',
+                    'crudRoutePart',
+                    'row'
+                ));
+            });
+
+            $table->editColumn('id', function ($row) {
+                return $row->id ? $row->id : "";
+            });
+            $table->editColumn('product_name', function ($row) {
+                return $row->product_name ? $row->product_name : "";
+            });
+          
+            $table->editColumn('serial_no', function ($row) {
+                return $row->serial_no ? $row->serial_no : "";
+            });
+    
+            $table->editColumn('invoice_no', function ($row) {
+                return $row->invoice_no ? $row->invoice_no : "";
+            });
+    
+            $table->editColumn('make', function ($row) {
+                return $row->make ? $row->make : "";
+            });
+            // $table->editColumn('model', function ($row) {
+            //     return $row->model ? $row->model : "";
+            // });
+    
+            $table->editColumn('invoice_date', function ($row) {
+                return $row->invoice_date ? $row->invoice_date : "";
+            });
+    
+            $table->addColumn('view_link', function ($row) {
+                return route('admin.inventory.show', $row->id);
+            });
+
+            $table->rawColumns(['actions','placeholder','model']);
+
+            return $table->make(true);
+        }
+
         return view('admin.inventory.index');
     }
     
@@ -28,12 +88,6 @@ class InventoryController extends Controller
         return redirect()->route('admin.inventory.index');
     }
     
-    //     // Store the data in the database
-    //     Inventory::create($validated);
-    
-    //     // Redirect or return a response
-    //     return redirect()->route('inventory.index')->with('success', 'Inventory item created successfully!');
-    // }
     
     public function edit(Inventory $inventory)
     {
@@ -58,53 +112,5 @@ class InventoryController extends Controller
         return response(null, Response::HTTP_NO_CONTENT);
     }
 
-    // Method to handle DataTables AJAX request
-    public function getInventoryData(Request $request)
-    {
-        $columns = [
-            0 => 'id',
-            1 => 'serial_no',
-            2 => 'product_name',
-            3 => 'invoice_no',
-            4 => 'make',
-            5 => 'model',
-        ];
-
-        // Retrieve the data for the DataTable with pagination, searching, and sorting.
-        $query = Inventory::query();
-        
-
-        // Search filter (if any search value is present in the request)
-        if ($request->has('search') && $request->search['value']) {
-            $search = $request->search['value'];
-            $query->where(function ($q) use ($search) {
-                $q->where('product_name', 'LIKE', "%{$search}%")
-                  ->orwhere('serial_no', 'LIKE', "%{$search}%")
-                  ->orWhere('invoice_no', 'LIKE', "%{$search}%")
-                  ->orWhere('make', 'LIKE', "%{$search}%")
-                  ->orWhere('model', 'LIKE', "%{$search}%");
-            });
-        }
-
-        // Sorting (DataTables request for ordering)
-        $orderColumn = $columns[$request->order[0]['column']];
-        $orderDirection = $request->order[0]['dir'];
-        $query->orderBy($orderColumn, $orderDirection);
-
-        // Pagination (DataTables request for page size)
-        $length = $request->length;
-        $start = $request->start;
-        $data = $query->offset($start)->limit($length)->get();
-
-        // Count total records for pagination
-        $totalRecords = Inventory::count();
-        // dd($data);
-        // Return the data as JSON
-        return response()->json([
-            'draw' => $request->draw,
-            'recordsTotal' => $totalRecords,
-            'recordsFiltered' => $query->count(),
-            'data' => $data,
-        ]);
-    }
+  
 }
