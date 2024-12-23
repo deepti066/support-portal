@@ -1,12 +1,13 @@
-{{-- @extends('layouts.admin')
+@extends('layouts.admin')
 @section('content')
+
 <div class="card">
     <div class="card-header">
         {{ trans('global.edit') }} {{ trans('cruds.inventory.title_singular') }}
     </div>
 
     <div class="card-body">
-        <form method="POST" action="{{ route("admin.inventories.update", [$inventory->id]) }}" enctype="multipart/form-data">
+        <form method="POST" action="{{ route("admin.inventory.update", [$inventory->id]) }}"  method="POST" enctype="multipart/form-data">
             @method('PUT')
             @csrf
             <div class="form-group">
@@ -32,10 +33,10 @@
                 @endif
             </div>
             <div class="form-group">
-                <label for="invoice_date">{{ trans('cruds.inventory.fields.invoice_no') }}</label>
-                <input class="form-control {{ $errors->has('invoice_no') ? 'is-invalid' : '' }}" type="text" name="invoice_no" id="invoice_no" value="{{ old('invoice_no', $inventory->invoice_no) }}">
-                @if($errors->has('invoice_no'))
-                    <span class="text-danger">{{ $errors->first('invoice_no') }}</span>
+                <label for="invoice_date">{{ trans('cruds.inventory.fields.invoice_date') }}</label>
+                <input class="form-control {{ $errors->has('invoice_date') ? 'is-invalid' : '' }}" type="text" name="invoice_date" id="invoice_date" value="{{ old('invoice_date', $inventory->invoice_date) }}">
+                @if($errors->has('invoice_date'))
+                    <span class="text-danger">{{ $errors->first('invoice_date') }}</span>
                 @endif
             </div>
             <div class="form-group">
@@ -63,4 +64,4 @@
         </form>
     </div>
 </div>
-@endsection --}}
+@endsection

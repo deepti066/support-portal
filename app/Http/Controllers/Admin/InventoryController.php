@@ -91,8 +91,11 @@ class InventoryController extends Controller
     
     public function edit(Inventory $inventory)
     {
-        return view('inventory.edit', compact('inventory'));
+        abort_if(Gate::denies('inventory_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        return view('admin.inventory.edit', compact('inventory'));
     }
+
     
     public function update(Request $request, Inventory $inventory)
     {
@@ -102,10 +105,12 @@ class InventoryController extends Controller
     
     public function destroy(Inventory $inventory)
     {
-        $inventory->delete();
-        return redirect()->route('inventory.index')->with('success', 'Item deleted successfully!');
-    }
+        abort_if(Gate::denies('inventory_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
+        $inventory->delete();
+
+        return back();
+    }
     public function massDestroy(Request $request)
     {
         Inventory::whereIn('id', $request->ids)->delete();

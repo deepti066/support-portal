@@ -28,11 +28,10 @@
                     <th>{{ trans('cruds.inventory.fields.invoice_date') }}</th>
                     <th>{{ trans('cruds.inventory.fields.make') }}</th>
                     <th>{{ trans('cruds.inventory.fields.model') }}</th>
-                    <th>{{ trans('global.actions') }}</th>
+                    <th>&nbsp;</th>
                 </tr>
             </thead>
-            
-        </table>
+         </table>
     </div>
 </div>
 @endsection
@@ -99,7 +98,7 @@ $('.card-body').on('change', 'select', function() {
     columns: [
       
 
-    { data: 'placeholder', name: 'placeholder' },
+{ data: 'placeholder', name: 'placeholder' },
 { data: 'id', name: 'id' },
 { data: 'serial_no', name: 'serial_no' },
 { data: 'product_name', name: 'product_name' },

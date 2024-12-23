@@ -140,7 +140,7 @@
     var uploadedAttachmentsMap = {}
 Dropzone.options.attachmentsDropzone = {
     url: '{{ route('admin.tickets.storeMedia') }}',
-    maxFilesize: 2, // MB
+    maxFilesize: 3, // MB
     addRemoveLinks: true,
     headers: {
       'X-CSRF-TOKEN': "{{ csrf_token() }}"
