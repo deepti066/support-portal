@@ -25,6 +25,10 @@
                     <td>{{ $inventory->invoice_no }}</td>
                 </tr>
                 <tr>
+                    <th>{{ trans('cruds.inventory.fields.invoice_date') }}</th>
+                    <td>{{ $inventory->invoice_date }}</td>
+                </tr>
+                <tr>
                     <th>{{ trans('cruds.inventory.fields.make') }}</th>
                     <td>{{ $inventory->make }}</td>
                 </tr>
@@ -34,9 +38,19 @@
                 </tr>
             </tbody>
         </table>
-        <a class="btn btn-primary" href="{{ route('admin.inventories.index') }}">
+        <a class="btn btn-primary" href="{{ route('admin.inventory.index') }}">
             {{ trans('global.back_to_list') }}
         </a>
     </div>
+
+    <nav class="mb-3">
+        <div class="nav nav-tabs">
+
+        </div>
+    </nav>
+
+    </div>
+
+
 </div>
 @endsection

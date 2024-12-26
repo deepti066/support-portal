@@ -1,6 +1,6 @@
 <?php
 use App\Http\Controllers\Admin\InventoryController;
-// use App\Http\Controllers\Admin\BrandController;
+
 
 Route::get('/', 'TicketController@create');
 Route::get('/home', function () {
@@ -55,8 +55,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     // Inventory
     Route::delete('inventory/destroy', 'InventoryController@massDestroy')->name('inventory.massDestroy');
     Route::resource('inventory', 'InventoryController');
-    Route::post('/inventory/store', [InventoryController::class, 'store'])->name('inventories.store');
-
+   
+    
 
 
     // Comments

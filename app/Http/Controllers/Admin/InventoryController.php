@@ -4,17 +4,19 @@ namespace App\Http\Controllers\Admin;
 use App\Inventory; 
 use App\Brand;
 use Gate;
+use App\Http\Controllers\Admin\PermissionsController;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreInventoryRequest;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Yajra\DataTables\Facades\DataTables;
+use Haruncpi\IdGenerator\IdGenerator;
+
 
 class InventoryController extends Controller
 {
     public function index(Request $request)
     {
-        abort_if(Gate::denies('status_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         if ($request->ajax()) {
             $query = Inventory::select("*");
             $table = Datatables::of($query);
@@ -55,9 +57,6 @@ class InventoryController extends Controller
             $table->editColumn('make', function ($row) {
                 return $row->make ? $row->make : "";
             });
-            // $table->editColumn('model', function ($row) {
-            //     return $row->model ? $row->model : "";
-            // });
     
             $table->editColumn('invoice_date', function ($row) {
                 return $row->invoice_date ? $row->invoice_date : "";
@@ -72,7 +71,8 @@ class InventoryController extends Controller
             return $table->make(true);
         }
 
-        return view('admin.inventory.index');
+        $inventories = Inventory::all();
+    return view('admin.inventory.index', compact('inventories'));
     }
     
     public function create()
@@ -87,12 +87,17 @@ class InventoryController extends Controller
 
         return redirect()->route('admin.inventory.index');
     }
+
+    public function show(Inventory $inventory)
+    {
+        abort_if(Gate::denies('inventory_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        return view('admin.inventory.show', compact('inventory'));
+    }
     
     
     public function edit(Inventory $inventory)
     {
         abort_if(Gate::denies('inventory_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
         return view('admin.inventory.edit', compact('inventory'));
     }
 
@@ -100,7 +105,7 @@ class InventoryController extends Controller
     public function update(Request $request, Inventory $inventory)
     {
         $inventory->update($request->all());
-        return redirect()->route('inventory.index')->with('success', 'Item updated successfully!');
+        return redirect()->route('admin.inventory.index')->with('success', 'Item updated successfully!');
     }
     
     public function destroy(Inventory $inventory)
@@ -117,5 +122,6 @@ class InventoryController extends Controller
         return response(null, Response::HTTP_NO_CONTENT);
     }
 
+    
   
 }

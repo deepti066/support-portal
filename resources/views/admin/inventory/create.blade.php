@@ -6,7 +6,7 @@
     </div>
 
     <div class="card-body">
-        <form method="POST" action="{{ route("admin.inventories.store") }}" enctype="multipart/form-data">
+        <form method="POST" action="{{ route("admin.inventory.store") }}" enctype="multipart/form-data">
             @csrf
             <div class="form-group">
                 <label for="serial_no">{{ trans('cruds.inventory.fields.serial_no') }}</label>

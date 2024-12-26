@@ -58,6 +58,9 @@
                     {{ trans('global.update') }}
                 </button>
             </div>
+            <p class="helper-block">
+                {{ trans('cruds.role.fields.permissions_helper') }}
+            </p>
             <div>
                 <input class="btn btn-danger" type="submit" value="{{ trans('global.save') }}">
             </div>

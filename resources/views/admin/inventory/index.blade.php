@@ -31,6 +31,30 @@
                     <th>&nbsp;</th>
                 </tr>
             </thead>
+            <tbody>
+                @foreach($inventories as $inventory)
+                    <tr data-entry-id="{{ $inventory->id }}">
+                        <td></td>
+                        <td>{{ $inventory->id ?? '' }}</td>
+                        <td>{{ $inventory->product_name ?? '' }}</td>
+                        <td style="background-color:{{ $inventory->color ?? '#FFFFFF' }}"></td>
+                        <td>
+                            @can('inventory_show')
+                                <a class="btn btn-xs btn-primary" href="{{ route('admin.inventory.show', $inventory->id) }}">
+                                    {{ trans('global.view') }}
+                                </a>
+                            @endcan
+            
+                            @can('inventory_edit')
+                                <a class="btn btn-xs btn-info" href="{{ route('admin.inventory.edit', $inventory->id) }}">
+                                    {{ trans('global.edit') }}
+                                </a>
+                            @endcan
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+            
          </table>
     </div>
 </div>
