@@ -11,6 +11,7 @@ use Gate;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
+
 class PermissionsController extends Controller
 {
     public function index()
@@ -35,6 +36,8 @@ class PermissionsController extends Controller
 
         return redirect()->route('admin.permissions.index');
     }
+
+   
 
     public function edit(Permission $permission)
     {

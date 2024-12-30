@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Haruncpi\LaravelIdGenerator\IdGenerator;
 
 class Inventory extends Model
 {
@@ -20,5 +21,14 @@ class Inventory extends Model
         'model',
     ];
 
+    public static function boot()
+    {
+        parent::boot();
+        self::creating(function ($model) {
+            $model->uuid = IdGenerator::generate(['table' => $model->table, 'length' => 6, 'prefix' =>'INV-']);
+        });
+    }
+
     
 }
+

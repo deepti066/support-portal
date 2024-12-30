@@ -10,7 +10,7 @@ use App\Http\Requests\StoreInventoryRequest;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Yajra\DataTables\Facades\DataTables;
-use Haruncpi\IdGenerator\IdGenerator;
+use Haruncpi\LaravelIdGenerator\IdGenerator;
 
 
 class InventoryController extends Controller
@@ -83,10 +83,30 @@ class InventoryController extends Controller
     
     public function store(StoreInventoryRequest $request)
     {
-        $inventory = Inventory::create($request->all());
-
+        // Generate a unique ID for the 'inventories' table, length 6, with a prefix based on the current year
+        $id = IdGenerator::generate(['table' => 'inventories', 'length' => 6, 'prefix' => date('y')]);
+    
+        // Create a new Inventory object and populate it
+        $inventory = new Inventory();
+        $inventory->id = $id;
+        $inventory->product_name = $request->get('product_name'); // Set other fields as necessary
+        $inventory->serial_no = $request->get('serial_no');
+        $inventory->invoice_no = $request->get('invoice_no');
+        $inventory->brand_id = $request->get('brand_id'); // Assuming this field is being passed
+        $inventory->model = $request->get('model');
+        $inventory->invoice_date = $request->get('invoice_date');
+    
+        // Save the inventory item
+        $inventory->save();
+    
         return redirect()->route('admin.inventory.index');
     }
+    
+
+    // public function store(Request $request){
+
+       
+    // }
 
     public function show(Inventory $inventory)
     {
