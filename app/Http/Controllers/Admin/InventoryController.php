@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 use App\Inventory; 
 use App\Brand;
 use Gate;
+use App\Status;
 use App\Http\Controllers\Admin\PermissionsController;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreInventoryRequest;
@@ -61,6 +62,38 @@ class InventoryController extends Controller
             $table->editColumn('invoice_date', function ($row) {
                 return $row->invoice_date ? $row->invoice_date : "";
             });
+
+            $table->editColumn('asset_description', function ($row) {
+                return $row->asset_description ? $row->asset_description : "";
+            });
+
+            $table->editColumn('stock_in_quantity', function ($row) {
+                return $row->stock_in_quantity ? $row->stock_in_quantity : "";
+            });
+
+            $table->editColumn('stock_in_date', function ($row) {
+                return $row->stock_in_date ? $row->stock_in_date : "";
+            });
+
+            $table->editColumn('stock_out_quantity', function ($row) {
+                return $row->stock_out_quantity ? $row->stock_out_quantity : "";
+            });
+
+            $table->editColumn('stock_out_date', function ($row) {
+                return $row->stock_out_date ? $row->stock_out_date : "";
+            });
+
+            $table->editColumn('balance_quantity', function ($row) {
+                return $row->balance_quantity ? $row->balance_quantity : "";
+            });
+
+            $table->editColumn('used_in', function ($row) {
+                return $row->used_in ? $row->used_in : "";
+            });
+
+            $table->editColumn('used_by', function ($row) {
+                return $row->used_by ? $row->used_by : "";
+            });
     
             $table->addColumn('view_link', function ($row) {
                 return route('admin.inventory.show', $row->id);
@@ -77,36 +110,33 @@ class InventoryController extends Controller
     
     public function create()
     {
-        $brands = Brand::all()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+       $brands = Brand::all()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
         return view('admin.inventory.create', compact('brands'));
     }
-    
-    public function store(StoreInventoryRequest $request)
-    {
-        // Generate a unique ID for the 'inventories' table, length 6, with a prefix based on the current year
-        $id = IdGenerator::generate(['table' => 'inventories', 'length' => 6, 'prefix' => date('y')]);
-    
-        // Create a new Inventory object and populate it
-        $inventory = new Inventory();
-        $inventory->id = $id;
-        $inventory->product_name = $request->get('product_name'); // Set other fields as necessary
-        $inventory->serial_no = $request->get('serial_no');
-        $inventory->invoice_no = $request->get('invoice_no');
-        $inventory->brand_id = $request->get('brand_id'); // Assuming this field is being passed
-        $inventory->model = $request->get('model');
-        $inventory->invoice_date = $request->get('invoice_date');
-    
-        // Save the inventory item
-        $inventory->save();
-    
-        return redirect()->route('admin.inventory.index');
-    }
-    
 
-    // public function store(Request $request){
+    public function store(Request $request)
+{
+    $validated = $request->validate([
+        'serial_no'            => 'nullable|string|max:255|unique:inventories,serial_no',
+        'product_name'         => 'required|string|max:255',
+        'invoice_no'           => 'nullable|string|max:255',
+        'invoice_date'         => 'nullable|date',
+        'make'                 => 'nullable|string|max:255',
+        'model'                => 'nullable|string|max:255',
+        'asset_description'    => 'nullable|string|max:500',
+        'stock_in_quantity'    => 'nullable|integer|min:0',
+        'stock_in_date'        => 'nullable|date',
+        'stock_out_quantity'   => 'nullable|integer|min:0',
+        'stock_out_date'       => 'nullable|date',
+        'balance_quantity'     => 'nullable|integer|min:0',
+        'used_in'              => 'nullable|string|max:255',
+        'used_by'              => 'nullable|string|max:255',
+    ]);
+    
+    Inventory::create($validated);
+    return redirect()->route('admin.inventory.index');
+}
 
-       
-    // }
 
     public function show(Inventory $inventory)
     {
@@ -140,8 +170,5 @@ class InventoryController extends Controller
     {
         Inventory::whereIn('id', $request->ids)->delete();
         return response(null, Response::HTTP_NO_CONTENT);
-    }
-
-    
-  
+    }  
 }

@@ -125,6 +125,8 @@ return [
         'fields'         => [
             'id'                      => 'ID',
             'id_helper'               => '',
+            'inventory_id'            => 'Inventory_ID',
+            'inventory_helper'        => '',
             'title'                   => 'Title',
             'title_helper'            => '',
             'content'                 => 'Content',
@@ -165,6 +167,14 @@ return [
                 'invoice_no' => 'Invoice_No',
                 'make' => 'Make',
                 'model' => 'Model',
+                'asset_description' => 'Asset_Description',
+                'stock_in_quantity' => 'Stock_in_quantity',
+                'stock_in_date' => 'Stock_in_Date',
+                'stock_out_quantity' => 'Stock_out_Quantity',
+                'stock_out_date' => 'Stock_out_Date',
+                'balance_quantity' => 'Balance_Quantity',
+                'used_in' => 'Used_in',
+                'used_by' => 'Used_by',
             ],
         ],
 

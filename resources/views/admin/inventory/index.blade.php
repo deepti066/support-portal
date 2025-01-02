@@ -28,6 +28,14 @@
                     <th>{{ trans('cruds.inventory.fields.invoice_date') }}</th>
                     <th>{{ trans('cruds.inventory.fields.make') }}</th>
                     <th>{{ trans('cruds.inventory.fields.model') }}</th>
+                    <th>{{ trans('cruds.inventory.fields.asset_description') }}</th>
+                    <th>{{ trans('cruds.inventory.fields.stock_in_quantity') }}</th>
+                    <th>{{ trans('cruds.inventory.fields.stock_in_date') }}</th>
+                    <th>{{ trans('cruds.inventory.fields.stock_out_quantity') }}</th>
+                    <th>{{ trans('cruds.inventory.fields.stock_out_date') }}</th>
+                    <th>{{ trans('cruds.inventory.fields.balance_quantity') }}</th>
+                    <th>{{ trans('cruds.inventory.fields.used_in') }}</th>
+                    <th>{{ trans('cruds.inventory.fields.used_by') }}</th>
                     <th>&nbsp;</th>
                 </tr>
             </thead>
@@ -130,6 +138,15 @@ $('.card-body').on('change', 'select', function() {
 { data: 'invoice_date', name: 'invoice_date' },
 { data: 'make', name: 'make' },
 { data: 'model', name: 'model' },
+{ data: 'asset_description', name: 'asset_description' },
+{ data: 'stock_in_quantity', name: 'stock_in_quantity' },
+{ data: 'stock_in_date', name: 'stock_in_date' },
+{ data: 'stock_out_quantity', name: 'stock_out_quantity' },
+{ data: 'stock_out_date', name: 'stock_out_date' },
+{ data: 'balance_quantity', name: 'balance_quantity' },
+{ data: 'used_in', name: 'used_in' },
+{ data: 'used_by', name: 'used_by' },
+
 { data: 'actions', name: '{{ trans('global.actions') }}' }
     ],
     order: [[ 4, 'ASC' ]],

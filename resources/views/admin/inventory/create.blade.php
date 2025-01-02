@@ -50,6 +50,62 @@
                     <span class="text-danger">{{ $errors->first('model') }}</span>
                 @endif
             </div>
+            <div class="form-group">
+                <label for="asset_description">{{ trans('cruds.inventory.fields.asset_description') }}</label>
+                <input class="form-control {{ $errors->has('asset_description') ? 'is-invalid' : '' }}" type="text" name="asset_description" id="asset_description" value="{{ old('asset_description', '') }}">
+                @if($errors->has('asset_description'))
+                    <span class="text-danger">{{ $errors->first('asset_description') }}</span>
+                @endif
+            </div>
+            <div class="form-group">
+                <label for="stock_in_quantity">{{ trans('cruds.inventory.fields.stock_in_quantity') }}</label>
+                <input class="form-control {{ $errors->has('stock_in_quantity') ? 'is-invalid' : '' }}" type="text" name="stock_in_quantity" id="stock_in_quantity" value="{{ old('stock_in_quantity', '') }}">
+                @if($errors->has('stock_in_quantity'))
+                    <span class="text-danger">{{ $errors->first('stock_in_quantity') }}</span>
+                @endif
+            </div>
+            <div class="form-group">
+                <label for="stock_in_date">{{ trans('cruds.inventory.fields.stock_in_date') }}</label>
+                <input class="form-control {{ $errors->has('stock_in_date') ? 'is-invalid' : '' }}" type="date" name="stock_in_date" id="stock_in_date" value="{{ old('stock_in_date', '') }}">
+                @if($errors->has('stock_in_date'))
+                    <span class="text-danger">{{ $errors->first('stock_in_date') }}</span>
+                @endif
+            </div>
+            <div class="form-group">
+                <label for="model">{{ trans('cruds.inventory.fields.stock_out_quantity') }}</label>
+                <input class="form-control {{ $errors->has('stock_out_quantity') ? 'is-invalid' : '' }}" type="text" name="stock_out_quantity" id="stock_out_quantity" value="{{ old('stock_out_quantity', '') }}">
+                @if($errors->has('stock_out_quantity'))
+                    <span class="text-danger">{{ $errors->first('stock_out_quantity') }}</span>
+                @endif
+            </div>
+            <div class="form-group">
+                <label for="stock_out_date">{{ trans('cruds.inventory.fields.stock_out_date') }}</label>
+                <input class="form-control {{ $errors->has('stock_out_quantity') ? 'is-invalid' : '' }}" type="date" name="stock_out_date" id="stock_out_date" value="{{ old('stock_out_date', '') }}">
+                @if($errors->has('stock_out_date'))
+                    <span class="text-danger">{{ $errors->first('stock_out_date') }}</span>
+                @endif
+            </div>
+            <div class="form-group">
+                <label for="balance_quantity">{{ trans('cruds.inventory.fields.balance_quantity') }}</label>
+                <input class="form-control {{ $errors->has('balance_quantity') ? 'is-invalid' : '' }}" type="text" name="balance_quantity" id="balance_quantity" value="{{ old('balance_quantity', '') }}">
+                @if($errors->has('balance_quantity'))
+                    <span class="text-danger">{{ $errors->first('balance_quantity') }}</span>
+                @endif
+            </div>
+            <div class="form-group">
+                <label for="used_in">{{ trans('cruds.inventory.fields.used_in') }}</label>
+                <input class="form-control {{ $errors->has('used_in') ? 'is-invalid' : '' }}" type="text" name="used_in" id="used_in" value="{{ old('used_in', '') }}">
+                @if($errors->has('used_in'))
+                    <span class="text-danger">{{ $errors->first('used_in') }}</span>
+                @endif
+            </div>
+            <div class="form-group">
+                <label for="used_by">{{ trans('cruds.inventory.fields.used_by') }}</label>
+                <input class="form-control {{ $errors->has('used_by') ? 'is-invalid' : '' }}" type="text" name="used_by" id="used_by" value="{{ old('used_by', '') }}">
+                @if($errors->has('used_by'))
+                    <span class="text-danger">{{ $errors->first('used_by') }}</span>
+                @endif
+            </div>
             <div>
                 <input class="btn btn-danger" type="submit" value="{{ trans('global.save') }}">
             </div>
