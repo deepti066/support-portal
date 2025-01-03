@@ -45,6 +45,15 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="col-md-4">
+                            <div class="card text-white bg-primary">
+                                <div class="card-body pb-3">
+                                    <div class="text-value">{{ number_format($totalInventory) }}</div>
+                                    <div>Total Inventories</div>
+                                    <br />
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

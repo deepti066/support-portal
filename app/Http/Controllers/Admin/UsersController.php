@@ -32,13 +32,21 @@ class UsersController extends Controller
         return view('admin.users.create', compact('roles'));
     }
 
-    public function store(StoreUserRequest $request)
-    {
-        $user = User::create($request->all());
-        $user->roles()->sync($request->input('roles', []));
+    // public function store(StoreUserRequest $request)
+    // {
+    //     $user = User::create($request->all());
+    //     $user->roles()->sync($request->input('roles', []));
 
-        return redirect()->route('admin.users.index');
-    }
+    //     return redirect()->route('admin.users.index');
+    // }
+
+    public function store(StoreUserRequest $request)
+{
+    $user = User::create($request->all());
+    $user->roles()->sync($request->input('roles', []));
+    $user->sendEmailVerificationNotification();
+    return redirect()->route('admin.users.index')->with('success', 'User created successfully. Verification email sent!');
+}
 
     public function edit(User $user)
     {

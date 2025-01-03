@@ -9,14 +9,14 @@
     <div class="card-body">
         <form action="{{ route("admin.tickets.store") }}" method="POST" enctype="multipart/form-data">
             @csrf
-            <div>
+            {{-- <div>
                 <label for="inventory_id">Select Inventory</label>
                 <select name="inventory_id" id="inventory_id" required>
                     @foreach ($inventories as $id => $product_name)
                         <option value="{{ $id }}">{{ $id }} - {{ $product_name }}</option>
                     @endforeach
                 </select>
-            </div>
+            </div> --}}
 
             <div class="form-group {{ $errors->has('title') ? 'has-error' : '' }}">
                 <label for="title">{{ trans('cruds.ticket.fields.title') }}*</label>

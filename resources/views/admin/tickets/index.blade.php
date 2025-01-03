@@ -24,9 +24,9 @@
                     <th>
                         {{ trans('cruds.ticket.fields.id') }}
                     </th>
-                    <th>
+                    {{-- <th>
                       {{ trans('cruds.ticket.fields.inventory_id') }}
-                  </th>
+                  </th> --}}
                     <th>
                         {{ trans('cruds.ticket.fields.title') }}
                     </th>
@@ -143,7 +143,7 @@ $('.card-body').on('change', 'select', function() {
     columns: [
       { data: 'placeholder', name: 'placeholder' },
 { data: 'id', name: 'id' },
-{ data: 'inventory_id', name: 'inventory_id' },
+// { data: 'inventory_id', name: 'inventory_id' },
 {
     data: 'title',
     name: 'title', 

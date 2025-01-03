@@ -134,6 +134,7 @@
                                 </div>
                                 <hr />
                             @endforelse
+
                             <form action="{{ route('admin.tickets.storeComment', $ticket->id) }}" method="POST">
                                 @csrf
                                 <div class="form-group">

@@ -1,5 +1,22 @@
 <?php
 use App\Http\Controllers\Admin\InventoryController;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
+
+
+Route::get('/email/verify', function () {
+    return view('auth.verify-email');
+})->middleware('auth')->name('verification.notice');
+
+
+Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+    $request->fulfill();
+    return redirect('/home');
+})->middleware(['auth', 'signed'])->name('verification.verify');
+
+Route::post('/email/verification-notification', function (Request $request) {
+    $request->user()->sendEmailVerificationNotification();
+    return back()->with('message', 'Verification link sent!');
+})->middleware(['auth', 'throttle:6,1'])->name('verification.send');
 
 
 Route::get('/', 'TicketController@create');
@@ -14,6 +31,11 @@ Route::get('/home', function () {
 Auth::routes();
 Route::get('register', 'Auth\RegisterController@showRegistrationForm')->name('register');
 Route::post('register', 'Auth\RegisterController@register');
+
+Route::group(['middleware' => ['auth', 'verified']], function () {
+    Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
+});
+
 
 
 Route::post('tickets/media', 'TicketController@storeMedia')->name('tickets.storeMedia');

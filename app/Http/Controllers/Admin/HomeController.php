@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use Gate;
 use Symfony\Component\HttpFoundation\Response;
 use App\Ticket;
+use App\Inventory;
 
 class HomeController
 {
@@ -20,6 +21,8 @@ class HomeController
             $query->whereName('Closed');
         })->count();
 
-        return view('home', compact('totalTickets', 'openTickets', 'closedTickets'));
+        $totalInventory = Inventory::count();
+
+        return view('home', compact('totalTickets', 'openTickets', 'closedTickets', 'totalInventory'));
     }
 }

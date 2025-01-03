@@ -71,6 +71,11 @@ class Ticket extends Model implements HasMedia
         return $this->belongsTo(Status::class, 'status_id');
     }
 
+    public function inventory()
+    {
+        return $this->belongsTo(Inventory::class, 'id');
+    }
+
     public function priority()
     {
         return $this->belongsTo(Priority::class, 'priority_id');

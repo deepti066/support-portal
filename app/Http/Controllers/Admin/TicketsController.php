@@ -119,11 +119,8 @@ class TicketsController extends Controller
         $categories = Category::all()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
         $inventories = Inventory::all()->pluck('inventory_id', 'id')->prepend(trans('global.pleaseSelect'), '');
-
-        $assigned_to_users = User::whereHas('roles', function($query) {
-                $query->whereId(2);
-            })
-            ->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+        
+        $assigned_to_users = User::all()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'),'');    
 
         return view('admin.tickets.create', compact('statuses', 'priorities', 'categories', 'assigned_to_users', 'inventories'));
     }
@@ -135,6 +132,8 @@ class TicketsController extends Controller
         foreach ($request->input('attachments', []) as $file) {
             $ticket->addMedia(storage_path('tmp/uploads/' . $file))->toMediaCollection('attachments');
         }
+        Mail::to(auth()->user()->email)->send(new TicketCreated($ticket));
+        
         return redirect()->route('admin.tickets.index')->with('success', 'Ticket created successfully!');
     }
 
@@ -150,11 +149,7 @@ class TicketsController extends Controller
 
         $inventories = Inventory::all()->pluck('inventory_id', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        $assigned_to_users = User::whereHas('roles', function($query) {
-                $query->whereId(2);
-            })
-            ->pluck('name', 'id')
-            ->prepend(trans('global.pleaseSelect'), '');
+        $assigned_to_users = User::all()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'),'');  
 
         $ticket->load('status', 'priority', 'category', 'assigned_to_user');
 
@@ -188,7 +183,7 @@ class TicketsController extends Controller
     {
         abort_if(Gate::denies('ticket_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $ticket->load('status', 'priority', 'category', 'assigned_to_user', 'comments');
+        $ticket->load('status', 'priority', 'category', 'assigned_to_user', 'comments', 'inventory');
 
         return view('admin.tickets.show', compact('ticket'));
     }

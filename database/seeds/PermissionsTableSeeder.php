@@ -1,5 +1,7 @@
 <?php
 
+namespace Database\Seeders;
+
 use App\Permission;
 use Illuminate\Database\Seeder;
 
@@ -184,6 +186,27 @@ class PermissionsTableSeeder extends Seeder
                 'id'    => '44',
                 'title' => 'dashboard_access',
             ],
+            [
+                'id'    => '45',
+                'title' => 'inventory_access',
+            ],
+            [
+                'id'    => '46',
+                'title' => 'inventory_edit',
+            ],
+            [
+                'id'    => '47',
+                'title' => 'inventory_create',
+            ],
+            [
+                'id'    => '48',
+                'title' => 'inventory_delete',
+            ],
+            [
+                'id'    => '49',
+                'title' => 'inventory_show',
+            ],
+
         ];
 
         Permission::insert($permissions);
