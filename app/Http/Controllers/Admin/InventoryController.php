@@ -3,8 +3,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Inventory; 
 use App\Brand;
+use App\Models;
 use Gate;
-use App\Status;
 use App\Http\Controllers\Admin\PermissionsController;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreInventoryRequest;
@@ -20,9 +20,14 @@ class InventoryController extends Controller
     {
         if ($request->ajax()) {
             $query = Inventory::select("*");
+
+            if ($request->has('model_id') && $request->model_id != '') {
+                $query->where('model', $request->model_id);
+            }
+
             $table = Datatables::of($query);
 
-              $table->addColumn('placeholder', '&nbsp;');
+            $table->addColumn('placeholder', '&nbsp;');
             $table->addColumn('actions', '&nbsp;');
 
             $table->editColumn('actions', function ($row) {
@@ -57,6 +62,10 @@ class InventoryController extends Controller
     
             $table->editColumn('make', function ($row) {
                 return $row->make ? $row->make : "";
+            });
+
+            $table->editColumn('model', function ($row) {
+                return $row->model ? $row->model : "";
             });
     
             $table->editColumn('invoice_date', function ($row) {
@@ -103,15 +112,18 @@ class InventoryController extends Controller
 
             return $table->make(true);
         }
-
+        $models = Models::all();
         $inventories = Inventory::all();
-    return view('admin.inventory.index', compact('inventories'));
+    return view('admin.inventory.index', compact('inventories', 'models'));
     }
     
     public function create()
     {
-       $brands = Brand::all()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
-        return view('admin.inventory.create', compact('brands'));
+        $models = Models::all()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+
+        $brands = Brand::all()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+        
+        return view('admin.inventory.create', compact('brands', 'models'));
     }
 
     public function store(Request $request)
@@ -138,9 +150,12 @@ class InventoryController extends Controller
 }
 
 
-    public function show(Inventory $inventory)
+    public function show(Request $request, Inventory $inventory)
     {
         abort_if(Gate::denies('inventory_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        
+        // $inventory->load('model');
+
         return view('admin.inventory.show', compact('inventory'));
     }
     
@@ -148,13 +163,17 @@ class InventoryController extends Controller
     public function edit(Inventory $inventory)
     {
         abort_if(Gate::denies('inventory_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-        return view('admin.inventory.edit', compact('inventory'));
+        
+       $models = Models::all()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+        
+        return view('admin.inventory.edit', compact('inventory', 'models'));
     }
 
     
     public function update(Request $request, Inventory $inventory)
     {
         $inventory->update($request->all());
+        
         return redirect()->route('admin.inventory.index')->with('success', 'Item updated successfully!');
     }
     

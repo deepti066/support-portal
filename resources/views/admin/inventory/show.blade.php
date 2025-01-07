@@ -6,6 +6,13 @@
     </div>
 
     <div class="card-body">
+        @if (@session('model'))
+            <div class="alert alert-success" role="alert">
+                {{session('model')}}
+            </div>
+         @endsession)
+            
+        @endif
         <table class="table table-bordered table-striped">
             <tbody>
                 <tr>

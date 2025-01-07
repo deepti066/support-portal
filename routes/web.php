@@ -1,23 +1,15 @@
 <?php
 use App\Http\Controllers\Admin\InventoryController;
-use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use Illuminate\Support\Facades\Mail;
 
+Route::get('/test-mail', function () {
+    Mail::raw('This is a test email.', function ($message) {
+        $message->to('deepzlet@gmail.com')
+            ->subject('Test Email');
+    });
 
-Route::get('/email/verify', function () {
-    return view('auth.verify-email');
-})->middleware('auth')->name('verification.notice');
-
-
-Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
-    $request->fulfill();
-    return redirect('/home');
-})->middleware(['auth', 'signed'])->name('verification.verify');
-
-Route::post('/email/verification-notification', function (Request $request) {
-    $request->user()->sendEmailVerificationNotification();
-    return back()->with('message', 'Verification link sent!');
-})->middleware(['auth', 'throttle:6,1'])->name('verification.send');
-
+    return 'Test email sent!';
+});
 
 Route::get('/', 'TicketController@create');
 Route::get('/home', function () {
@@ -67,6 +59,11 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     // Categories
     Route::delete('categories/destroy', 'CategoriesController@massDestroy')->name('categories.massDestroy');
     Route::resource('categories', 'CategoriesController');
+
+    //Models
+    Route::delete('model/destroy', 'ModelController@massDestroy')->name('model.massDestroy');
+    Route::resource('model', 'ModelController');
+
 
     // Tickets
     Route::delete('tickets/destroy', 'TicketsController@massDestroy')->name('tickets.massDestroy');

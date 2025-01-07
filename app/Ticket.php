@@ -46,7 +46,7 @@ class Ticket extends Model implements HasMedia
     {
         parent::boot();
 
-        Ticket::observe(new \App\Observers\TicketActionObserver);
+        // Ticket::observe(new \App\Observers\TicketActionObserver);
 
         static::addGlobalScope(new AgentScope);
     }

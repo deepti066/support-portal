@@ -227,4 +227,22 @@ return [
             'updated_at_helper'   => '',
         ],
     ],
+    'model'        =>[
+        'title'      => 'Model',
+        'title_singular'    => 'Model',
+        'fields'     => [
+            'id'                => 'ID',
+            'id_helper'         => '',
+            'name'              => 'Name',
+            'name_helper'       => '',
+            'color'             => 'Color',
+            'color_helper'      => '',
+            'created_at'        => 'Create at',
+            'created_at_helper' => '',
+            'updated_at'        => 'Updated at',
+            'updated_at_helper' => '',
+            'deleted_at'        => 'Deleted at',
+            'deleted_at_helper' => '',
+        ],
+    ],
 ];

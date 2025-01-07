@@ -4,10 +4,12 @@ namespace App\Http\Controllers\Admin;
 
 use App\Category;
 use App\Http\Controllers\Controller;
+use App\Notifications\TicketConfirmationNotification;
 use App\Http\Controllers\Traits\MediaUploadingTrait;
 use App\Http\Requests\MassDestroyTicketRequest;
 use App\Http\Requests\StoreTicketRequest;
 use App\Http\Requests\UpdateTicketRequest;
+use Illuminate\Support\Facades\Mail;
 use App\Priority;
 use App\Status;
 use App\Ticket;
@@ -128,13 +130,10 @@ class TicketsController extends Controller
     public function store(StoreTicketRequest $request)
     {
         $ticket = Ticket::create($request->all());
-
         foreach ($request->input('attachments', []) as $file) {
             $ticket->addMedia(storage_path('tmp/uploads/' . $file))->toMediaCollection('attachments');
         }
-        Mail::to(auth()->user()->email)->send(new TicketCreated($ticket));
-        
-        return redirect()->route('admin.tickets.index')->with('success', 'Ticket created successfully!');
+      return redirect()->route('admin.tickets.index')->with('success', 'Ticket created successfully, and confirmation email sent!');
     }
 
     public function edit(Ticket $ticket)

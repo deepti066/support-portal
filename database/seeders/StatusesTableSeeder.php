@@ -1,9 +1,11 @@
 <?php
+namespace Database\Seeders;
 
-use App\Category;
+
+use App\Status;
 use Illuminate\Database\Seeder;
 
-class CategoriesTableSeeder extends Seeder
+class StatusesTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -13,14 +15,14 @@ class CategoriesTableSeeder extends Seeder
     public function run()
     {
         $faker = Faker\Factory::create();
-        $categories = [
-            "Uncategorized", "Billing/Payments", "Technical question"
+        $statuses = [
+            'Open', 'Closed'
         ];
 
-        foreach($categories as $category)
+        foreach($statuses as $status)
         {
-            Category::create([
-                'name'  => $category,
+            Status::create([
+                'name'  => $status,
                 'color' => $faker->hexcolor
             ]);
         }
