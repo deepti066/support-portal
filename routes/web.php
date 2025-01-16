@@ -1,15 +1,5 @@
 <?php
 use App\Http\Controllers\Admin\InventoryController;
-use Illuminate\Support\Facades\Mail;
-
-Route::get('/test-mail', function () {
-    Mail::raw('This is a test email.', function ($message) {
-        $message->to('deepzlet@gmail.com')
-            ->subject('Test Email');
-    });
-
-    return 'Test email sent!';
-});
 
 Route::get('/', 'TicketController@create');
 Route::get('/home', function () {
