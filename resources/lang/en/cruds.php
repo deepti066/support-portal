@@ -153,6 +153,7 @@ return [
             'deleted_at_helper'       => '',
             'attachments'             => 'Attachments',
             'attachments_helper'      => '',
+            'technical_person'        =>'Technical Person'
         ],
     ],
 

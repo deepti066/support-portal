@@ -119,10 +119,15 @@ class TicketsController extends Controller
         $categories = Category::all()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
         $inventories = Inventory::all()->pluck('inventory_id', 'id')->prepend(trans('global.pleaseSelect'), '');
-        
-        $assigned_to_users = User::all()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'),'');    
 
-        return view('admin.tickets.create', compact('statuses', 'priorities', 'categories', 'assigned_to_users', 'inventories'));
+        $assigned_to_users = User::all()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'),'');
+        $users = User::whereHas('roles', function ($query) {
+            $query->where('title', 'Technical Person'); // Replace 'title' with the actual column name in your roles table
+        })->get();
+
+
+
+        return view('admin.tickets.create', compact('statuses', 'priorities', 'categories', 'assigned_to_users', 'inventories','users'));
     }
 
     public function store(StoreTicketRequest $request)
@@ -133,7 +138,7 @@ class TicketsController extends Controller
             $ticket->addMedia(storage_path('tmp/uploads/' . $file))->toMediaCollection('attachments');
         }
         Mail::to(auth()->user()->email)->send(new TicketCreated($ticket));
-        
+
         return redirect()->route('admin.tickets.index')->with('success', 'Ticket created successfully!');
     }
 
@@ -149,7 +154,7 @@ class TicketsController extends Controller
 
         $inventories = Inventory::all()->pluck('inventory_id', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        $assigned_to_users = User::all()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'),'');  
+        $assigned_to_users = User::all()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'),'');
 
         $ticket->load('status', 'priority', 'category', 'assigned_to_user');
 
