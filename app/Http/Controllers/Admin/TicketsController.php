@@ -144,6 +144,9 @@ class TicketsController extends Controller
         $ticket = Ticket::create($request->all());
         foreach ($request->input('attachments', []) as $file) {
             $ticket->addMedia(storage_path('tmp/uploads/' . $file))->toMediaCollection('attachments');
+
+            $user = auth()->user();
+            $user->notify(new TicketNotification($ticket));
         }
 
         return redirect()->route('admin.tickets.index')->with('success', 'Ticket created successfully, and confirmation email sent!');

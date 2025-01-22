@@ -25,3 +25,4 @@ class UpdateModelRequest extends FormRequest
         ];
     }
 }
+

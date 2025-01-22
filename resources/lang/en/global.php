@@ -215,6 +215,8 @@ return [
     'start_time'                           => 'Start time',
     'status'                               => 'Status',
     'statuses'                             => 'Statuses',
+    'model'                                => 'Model',
+    'models'                               => 'Models',
     'stripe_transactions'                  => 'Stripe Transactions',
     'subject'                              => 'Subject',
     'subscription-billing'                 => 'Subscriptions',

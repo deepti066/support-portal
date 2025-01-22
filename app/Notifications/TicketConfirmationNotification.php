@@ -16,9 +16,9 @@ class TicketConfirmationNotification extends Notification
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($ticket)
     {
-        //
+        $this->ticket = $ticket;
     }
 
     /**
@@ -40,6 +40,8 @@ class TicketConfirmationNotification extends Notification
      */
     public function toMail($notifiable)
     {
+        \Log::info('Notification triggered for ticket ID: '. $this->ticket->id);
+
         return (new MailMessage)
         ->subject('Ticket Confirmation')
         ->greeting('Hello ' . $notifiable->name . ',')
@@ -60,7 +62,8 @@ class TicketConfirmationNotification extends Notification
     public function toArray($notifiable)
     {
         return [
-            //
+            'ticket_id' => $this->ticket->id,
+            'ticket_title' => $this->ticket->title,
         ];
     }
 }

@@ -51,7 +51,7 @@
                 <select name="model_id" id="model" class="form-control select2" required>
                     @foreach($models as $id => $model)
                         <option value="{{ $id }}" 
-                                {{ (isset($inventory) && $inventory->model_id == $id) ? 'selected' : '' }}>
+                        {{ (isset($inventory) && $inventory->model ? $inventory->id : old('model_id')) == $id ? 'selected' : '' }}>
                             {{ $model }}
                         </option>
                     @endforeach
@@ -61,15 +61,7 @@
                         {{ $errors->first('model_id') }}
                     </em>
                 @endif
-            </div>
-            
-            <div class="form-group">
-                <label for="model">{{ trans('cruds.inventory.fields.model') }}</label>
-                <input class="form-control {{ $errors->has('model') ? 'is-invalid' : '' }}" type="text" name="model" id="model" value="{{ old('model', $inventory->model) }}">
-                @if($errors->has('model'))
-                    <span class="text-danger">{{ $errors->first('model') }}</span>
-                @endif
-            </div>
+            </div>                       
             <div class="form-group">
                 <label for="asset_description">{{ trans('cruds.inventory.fields.asset_description') }}</label>
                 <input class="form-control {{ $errors->has('asset_description') ? 'is-invalid' : '' }}" type="text" name="asset_description" id="asset_description" value="{{ old('asset_description', $inventory->asset_description) }}">

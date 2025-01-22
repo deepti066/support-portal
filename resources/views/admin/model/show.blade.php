@@ -3,7 +3,7 @@
 
 <div class="card">
     <div class="card-header">
-        {{ trans('global.show') }} {{ trans('cruds.status.title') }}
+        {{ trans('global.show') }} {{ trans('cruds.model.title') }}
     </div>
 
     <div class="card-body">
@@ -12,25 +12,25 @@
                 <tbody>
                     <tr>
                         <th>
-                            {{ trans('cruds.status.fields.id') }}
+                            {{ trans('cruds.model.fields.id') }}
                         </th>
                         <td>
-                            {{ $status->id }}
+                            {{ $model->id }}
                         </td>
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.status.fields.name') }}
+                            {{ trans('cruds.model.fields.name') }}
                         </th>
                         <td>
-                            {{ $status->name }}
+                            {{ $model->name }}
                         </td>
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.status.fields.color') }}
+                            {{ trans('cruds.model.fields.color') }}
                         </th>
-                        <td style="background-color:{{ $status->color ?? '#FFFFFF' }}"></td>
+                        <td style="background-color:{{ $model->color ?? '#FFFFFF' }}"></td>
                     </tr>
                 </tbody>
             </table>

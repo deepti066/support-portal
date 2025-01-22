@@ -54,3 +54,6 @@
     $('.colorpicker').colorpicker();
 </script>
 @endsection
+
+
+
