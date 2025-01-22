@@ -13,17 +13,17 @@ class CategoriesTableSeeder extends Seeder
      */
     public function run()
     {
-        $faker = Faker\Factory::create();
-        $categories = [
-            "Uncategorized", "Billing/Payments", "Technical question"
-        ];
+        // $faker = Faker\Factory::create();
+        // $categories = [
+        //     "Uncategorized", "Billing/Payments", "Technical question"
+        // ];
 
-        foreach($categories as $category)
-        {
-            Category::create([
-                'name'  => $category,
-                'color' => $faker->hexcolor
-            ]);
-        }
+        // foreach($categories as $category)
+        // {
+        //     Category::create([
+        //         'name'  => $category,
+        //         'color' => $faker->hexcolor
+        //     ]);
+        // }
     }
 }

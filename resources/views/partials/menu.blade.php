@@ -94,6 +94,16 @@
                     </a>
                 </li>
             @endcan
+            @can('model_access')
+            <li class="nav-item">
+                <a href="{{ route("admin.model.index") }}" class="nav-link {{ request()->is('admin/model') || request()->is('admin/model/*') ? 'active' : '' }}">
+                    <i class="fa-fw fas fa-box nav-icon">
+
+                    </i>
+                    {{ trans('cruds.model.title') }}
+                </a>
+            </li>
+        @endcan
             @can('ticket_access')
                 <li class="nav-item">
                     <a href="{{ route("admin.tickets.index") }}" class="nav-link {{ request()->is('admin/tickets') || request()->is('admin/tickets/*') ? 'active' : '' }}">
@@ -116,7 +126,7 @@
                 </li>
             @endcan
 
-            @can('comment_access')
+           @can('comment_access')
                 <li class="nav-item">
                     <a href="{{ route("admin.comments.index") }}" class="nav-link {{ request()->is('admin/comments') || request()->is('admin/comments/*') ? 'active' : '' }}">
                         <i class="fa-fw fas fa-comment nav-icon">

@@ -13,7 +13,7 @@ class PrioritiesTableSeeder extends Seeder
      */
     public function run()
     {
-        $faker = Faker\Factory::create();
+        // $faker = Faker\Factory::create();
         $priorities = [
             'Low', 'Medium', 'High'
         ];
@@ -22,7 +22,7 @@ class PrioritiesTableSeeder extends Seeder
         {
             Priority::create([
                 'name'  => $priority,
-                'color' => $faker->hexcolor
+                'color' => "#000000"
             ]);
         }
     }

@@ -4,7 +4,7 @@ namespace Database\Seeders;
 
 use App\Models;
 use Illuminate\Database\Seeder;
-use Faker\Generator as Faker;
+// use Faker\Generator as Faker;
 
 
 class ModelTableSeeder extends Seeder
@@ -14,7 +14,7 @@ class ModelTableSeeder extends Seeder
      *
      * @return void
      */
-    public function run(Faker $faker    )
+    public function run(    )
     {
     //    $faker = Faker\Factory::create();
        $model = [
@@ -25,7 +25,7 @@ class ModelTableSeeder extends Seeder
        {
         Models::create([
             'name' => $model,
-            'color' => $faker->hexcolor
+            'color' => "#000000"
         ]);
        }
     }

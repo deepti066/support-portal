@@ -19,6 +19,7 @@ class Inventory extends Model
 
     protected $fillable =[
         'id',
+        'inv_id',
         'serial_no',
         'product_name',
         'invoice_no',
@@ -38,17 +39,16 @@ class Inventory extends Model
     public static function booted()
     {
         static::creating(function ($inventory) {
-            $inventory->id = self::generateUniqueId();
+            $inventory->inv_id = self::generateUniqueId();
         });
     }
 
     public static function generateUniqueId()
     {
         $prefix = "INV";
-        $date = date('Ymd');
-        $randomString = Str::random(4);
+        $randomString = Str::random(2);
 
-        return "{$prefix}-{$date}-{$randomString}";
+        return "{$prefix}-{$randomString}";
     }
 }
 

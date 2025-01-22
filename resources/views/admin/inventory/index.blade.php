@@ -24,6 +24,9 @@
                         {{ trans('cruds.inventory.fields.id') }}
                     </th>
                     <th>
+                        {{ trans('cruds.inventory.fields.inv_id')}}
+                    </th>
+                    <th>
                         {{ trans('cruds.inventory.fields.serial_no') }}
                     </th>
                     <th>
@@ -165,6 +168,7 @@
             columns: [
                 { data: 'placeholder', name: 'placeholder' },
                 { data: 'id', name: 'id' },
+                { data: 'inv_id', name: 'inv_id'},
                 { data: 'serial_no', name: 'serial_no' },
                 { data: 'product_name', name: 'product_name' },
                 { data: 'invoice_no', name: 'invoice_no' },

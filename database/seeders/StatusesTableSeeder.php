@@ -14,7 +14,7 @@ class StatusesTableSeeder extends Seeder
      */
     public function run()
     {
-        $faker = Faker\Factory::create();
+        // $faker = Faker\Factory::create();
         $statuses = [
             'Open', 'Closed'
         ];
@@ -23,7 +23,7 @@ class StatusesTableSeeder extends Seeder
         {
             Status::create([
                 'name'  => $status,
-                'color' => $faker->hexcolor
+                'color' => "#000000"
             ]);
         }
     }

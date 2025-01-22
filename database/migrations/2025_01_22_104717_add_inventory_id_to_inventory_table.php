@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class RenameModelToModelsTable extends Migration
+class AddInventoryIdToInventoryTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,9 @@ class RenameModelToModelsTable extends Migration
      */
     public function up()
     {
-        Schema::rename('model', 'models'); 
+        Schema::table('inventories', function (Blueprint $table) {
+            $table->string('inv_id')->nullable()->after('id');
+        });
     }
 
     /**
@@ -23,6 +25,8 @@ class RenameModelToModelsTable extends Migration
      */
     public function down()
     {
-        Schema::rename('models', 'model'); 
+        Schema::table('inventory', function (Blueprint $table) {
+            $table->dropColumn('inv_id');
+        });
     }
 }

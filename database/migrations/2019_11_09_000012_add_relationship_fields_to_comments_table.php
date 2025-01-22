@@ -9,7 +9,7 @@ class AddRelationshipFieldsToCommentsTable extends Migration
     public function up()
     {
         Schema::table('comments', function (Blueprint $table) {
-            $table->unsignedInteger('ticket_id')->nullable();
+            $table->unsignedBigInteger('ticket_id')->nullable();
 
             $table->foreign('ticket_id', 'ticket_fk_583774')->references('id')->on('tickets');
 

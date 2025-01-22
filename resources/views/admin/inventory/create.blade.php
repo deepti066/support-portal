@@ -8,6 +8,13 @@
     <div class="card-body">
         <form method="POST" action="{{ route("admin.inventory.store") }}" enctype="multipart/form-data">
             @csrf
+            {{-- <div class="form-group">
+                <label for="inv_id">{{ trans('cruds.inventory.fields.inv_id') }}</label>
+                <input class="form-control {{ $errors->has('inv_id') ? 'is-invalid' : '' }}" type="text" name="inv_id" id="inv_id" value="{{ old('inv_id', '') }}">
+                @if($errors->has('inv_id'))
+                    <span class="text-danger">{{ $errors->first('inv_id') }}</span>
+                @endif
+            </div> --}}
             <div class="form-group">
                 <label for="serial_no">{{ trans('cruds.inventory.fields.serial_no') }}</label>
                 <input class="form-control {{ $errors->has('serial_no') ? 'is-invalid' : '' }}" type="int" name="serial_no" id="serial_no" value="{{ old('serial_no', '') }}">

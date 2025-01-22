@@ -19,12 +19,13 @@ class StoreInventoryRequest extends FormRequest
     public function rules()
     {
         return [
-            'serial_no' => 'required|unique:inventories,serial_no',
-            'product_name' => 'required|string|max:255',
-            'invoice_no' => 'required|max:255',
-            'invoice_date' => 'nullable|date',
-            'make' => 'required',
-            'model' => 'nullable|string|max:255',
+            // 'inv_id'               =>'req'  
+            'serial_no'            => 'required|unique:inventories,serial_no',
+            'product_name'         => 'required|string|max:255',
+            'invoice_no'           => 'required|max:255',
+            'invoice_date'         => 'nullable|date',
+            'make'                 => 'required',
+            'model'                => 'nullable|string|max:255',
             'asset_description'    => 'nullable|string|max:500',
             'stock_in_quantity'    => 'nullable|integer|min:0',
             'stock_in_date'        => 'nullable|date',

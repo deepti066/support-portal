@@ -48,6 +48,9 @@ class InventoryController extends Controller
             $table->editColumn('id', function ($row) {
                 return $row->id ? $row->id : "";
             });
+            $table->editColumn('inv_id', function ($row) {
+                return $row->inv_id ? $row->inv_id : "";
+            });
             $table->editColumn('product_name', function ($row) {
                 return $row->product_name ? $row->product_name : "";
             });
