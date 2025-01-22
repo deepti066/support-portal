@@ -11,7 +11,7 @@ class UsersTableSeeder extends Seeder
             [
                 'id'             => 1,
                 'name'           => 'Admin',
-                'email'          => 'superadmin@admin.com',
+                'email'          => 'deepzlet@gmail.com',
                 'password'       => bcrypt('12345678'),
                 'remember_token' => null,
             ],
@@ -39,5 +39,6 @@ class UsersTableSeeder extends Seeder
         ];
 
         User::insert($users);
+
     }
 }

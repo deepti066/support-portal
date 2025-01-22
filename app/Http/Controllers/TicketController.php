@@ -40,7 +40,7 @@ class TicketController extends Controller
         $request->request->add([
             'category_id'   => 1,
             'status_id'     => 1,
-            'priority_id'   => 1
+            'priority_id'   => 1 
         ]);
 
         $ticket = Ticket::create($request->all());

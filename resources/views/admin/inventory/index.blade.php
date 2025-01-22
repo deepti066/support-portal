@@ -1,5 +1,4 @@
 @extends('layouts.admin')
-
 @section('content')
 @can('inventory_create')
     <div style="margin-bottom: 10px;" class="row">
@@ -21,22 +20,54 @@
             <thead>
                 <tr>
                     <th width="10"></th>
-                    <th>{{ trans('cruds.inventory.fields.id') }}</th>
-                    <th>{{ trans('cruds.inventory.fields.serial_no') }}</th>
-                    <th>{{ trans('cruds.inventory.fields.product_name') }}</th>
-                    <th>{{ trans('cruds.inventory.fields.invoice_no') }}</th>
-                    <th>{{ trans('cruds.inventory.fields.invoice_date') }}</th>
-                    <th>{{ trans('cruds.inventory.fields.make') }}</th>
-                    <th>{{ trans('cruds.inventory.fields.model') }}</th>
-                    <th>{{ trans('cruds.inventory.fields.asset_description') }}</th>
-                    <th>{{ trans('cruds.inventory.fields.stock_in_quantity') }}</th>
-                    <th>{{ trans('cruds.inventory.fields.stock_in_date') }}</th>
-                    <th>{{ trans('cruds.inventory.fields.stock_out_quantity') }}</th>
-                    <th>{{ trans('cruds.inventory.fields.stock_out_date') }}</th>
-                    <th>{{ trans('cruds.inventory.fields.balance_quantity') }}</th>
-                    <th>{{ trans('cruds.inventory.fields.used_in') }}</th>
-                    <th>{{ trans('cruds.inventory.fields.used_by') }}</th>
-                    <th>&nbsp;</th>
+                    <th>
+                        {{ trans('cruds.inventory.fields.id') }}
+                    </th>
+                    <th>
+                        {{ trans('cruds.inventory.fields.serial_no') }}
+                    </th>
+                    <th>
+                        {{ trans('cruds.inventory.fields.product_name') }}
+                    </th>
+                    <th>
+                        {{ trans('cruds.inventory.fields.invoice_no') }}
+                    </th>
+                    <th>
+                        {{ trans('cruds.inventory.fields.invoice_date') }}
+                    </th>
+                    <th>
+                        {{ trans('cruds.inventory.fields.make') }}
+                    </th>
+                    <th>
+                        {{ trans('cruds.inventory.fields.model') }}
+                    </th>
+                    <th>
+                        {{ trans('cruds.inventory.fields.asset_description') }}
+                    </th>
+                    <th>
+                        {{ trans('cruds.inventory.fields.stock_in_quantity') }}
+                    </th>
+                    <th>
+                        {{ trans('cruds.inventory.fields.stock_in_date') }}
+                    </th>
+                    <th>
+                        {{ trans('cruds.inventory.fields.stock_out_quantity') }}
+                    </th>
+                    <th>
+                        {{ trans('cruds.inventory.fields.stock_out_date') }}
+                    </th>
+                    <th>
+                        {{ trans('cruds.inventory.fields.balance_quantity') }}
+                    </th>
+                    <th>
+                        {{ trans('cruds.inventory.fields.used_in') }}
+                    </th>
+                    <th>
+                        {{ trans('cruds.inventory.fields.used_by') }}
+                    </th>
+                    <th>
+                        &nbsp;
+                    </th>
                 </tr>
             </thead>
             <tbody>
@@ -75,16 +106,22 @@
         let filters = `
 <form class="form-inline" id="filtersForm">
   <div class="form-group mx-sm-3 mb-2">
-   <input name="product" >
+    <select class="form-control" name="model">
+      <option value="">All models</option>
+      @foreach($models as $model)
+        <option value="{{ $model->id }}"{{ request('model') == $model->id ? 'selected' : '' }}>{{ $model->name }}</option>
+      @endforeach
+    </select>
   </div>
-
 </form>`;
-$('.card-body').on('change', 'select', function() {
-  $('#filtersForm').submit();
-})
+        
+        $('.card-body').on('change', 'select', function() {
+            $('#filtersForm').submit();
+        });
+
         let dtButtons = []
         @can('inventory_delete')
-        let deleteButtonTrans = '{{ trans('global.datatables.delete') }}'
+        let deleteButtonTrans = '{{ trans('global.datatables.delete') }}';
         let deleteButton = {
             text: deleteButtonTrans,
             url: "{{ route('admin.inventory.massDestroy') }}",
@@ -112,7 +149,7 @@ $('.card-body').on('change', 'select', function() {
         dtButtons.push(deleteButton)
         @endcan
 
-       let searchParams = new URLSearchParams(window.location.search)
+        let searchParams = new URLSearchParams(window.location.search)
         let dtOverrideGlobals = {
             buttons: dtButtons,
             processing: true,
@@ -120,47 +157,45 @@ $('.card-body').on('change', 'select', function() {
             retrieve: true,
             aaSorting: [],
             ajax: {
-      url: "{{ route('admin.inventory.index') }}",
-    //   data: {
-    //     'status': searchParams.get('status'),
-    //     'priority': searchParams.get('priority'),
-    //     'category': searchParams.get('category')
-    //   }
-    },
-    columns: [
-      
+                url: "{{ route('admin.inventory.index') }}",
+                data: {
+                    'model': searchParams.get('model'),
+                }
+            },
+            columns: [
+                { data: 'placeholder', name: 'placeholder' },
+                { data: 'id', name: 'id' },
+                { data: 'serial_no', name: 'serial_no' },
+                { data: 'product_name', name: 'product_name' },
+                { data: 'invoice_no', name: 'invoice_no' },
+                { data: 'invoice_date', name: 'invoice_date' },
+                { data: 'make', name: 'make' },
+                { data: 'model', name: 'model' },
+                { data: 'asset_description', name: 'asset_description' },
+                { data: 'stock_in_quantity', name: 'stock_in_quantity' },
+                { data: 'stock_in_date', name: 'stock_in_date' },
+                { data: 'stock_out_quantity', name: 'stock_out_quantity' },
+                { data: 'stock_out_date', name: 'stock_out_date' },
+                { data: 'balance_quantity', name: 'balance_quantity' },
+                { data: 'used_in', name: 'used_in' },
+                { data: 'used_by', name: 'used_by' },
+                { data: 'actions', name: '{{ trans('global.actions') }}' }
+            ],
+            order: [[ 4, 'ASC' ]],
+            pageLength: 100,
+        };
 
-{ data: 'placeholder', name: 'placeholder' },
-{ data: 'id', name: 'id' },
-{ data: 'serial_no', name: 'serial_no' },
-{ data: 'product_name', name: 'product_name' },
-{ data: 'invoice_no', name: 'invoice_no' },
-{ data: 'invoice_date', name: 'invoice_date' },
-{ data: 'make', name: 'make' },
-{ data: 'model', name: 'model' },
-{ data: 'asset_description', name: 'asset_description' },
-{ data: 'stock_in_quantity', name: 'stock_in_quantity' },
-{ data: 'stock_in_date', name: 'stock_in_date' },
-{ data: 'stock_out_quantity', name: 'stock_out_quantity' },
-{ data: 'stock_out_date', name: 'stock_out_date' },
-{ data: 'balance_quantity', name: 'balance_quantity' },
-{ data: 'used_in', name: 'used_in' },
-{ data: 'used_by', name: 'used_by' },
+        $(".datatable-Inventory").one("preInit.dt", function () {
+            $(".dataTables_filter").after(filters);
+        });
 
-{ data: 'actions', name: '{{ trans('global.actions') }}' }
-    ],
-    order: [[ 4, 'ASC' ]],
-    pageLength: 100,
-  };    
-$(".datatable-Inventory").one("preInit.dt", function () {
-//  $(".dataTables_filter").after(filters);
-});
-  $('.datatable-Inventory').DataTable(dtOverrideGlobals);
-    $('a[data-toggle="tab"]').on('shown.bs.tab', function(e){
-        $($.fn.dataTable.tables(true)).DataTable()
-            .columns.adjust();
+        $('.datatable-Inventory').DataTable(dtOverrideGlobals);
+
+        $('a[data-toggle="tab"]').on('shown.bs.tab', function(e){
+            $($.fn.dataTable.tables(true)).DataTable()
+                .columns.adjust();
+        });
     });
-});
-
 </script>
 @endsection
+ 

@@ -4,10 +4,14 @@ namespace App\Http\Controllers\Admin;
 
 use App\Category;
 use App\Http\Controllers\Controller;
+use App\Notifications\TicketConfirmationNotification;
 use App\Http\Controllers\Traits\MediaUploadingTrait;
 use App\Http\Requests\MassDestroyTicketRequest;
 use App\Http\Requests\StoreTicketRequest;
 use App\Http\Requests\UpdateTicketRequest;
+use App\TicketMappedInventory;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use App\Priority;
 use App\Status;
 use App\Ticket;
@@ -25,7 +29,7 @@ class TicketsController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $query = Ticket::with(['status', 'priority', 'category', 'assigned_to_user', 'comments'])
+            $query = Ticket::with(['status', 'priority', 'category', 'assigned_to_user', 'comments','inventories','technicalPerson'])
                 ->filterTickets($request)
                 ->select(sprintf('%s.*', (new Ticket)->table));
             $table = Datatables::of($query);
@@ -34,9 +38,9 @@ class TicketsController extends Controller
             $table->addColumn('actions', '&nbsp;');
 
             $table->editColumn('actions', function ($row) {
-                $viewGate      = 'ticket_show';
-                $editGate      = 'ticket_edit';
-                $deleteGate    = 'ticket_delete';
+                $viewGate = 'ticket_show';
+                $editGate = 'ticket_edit';
+                $deleteGate = 'ticket_delete';
                 $crudRoutePart = 'tickets';
 
                 return view('partials.datatablesActions', compact(
@@ -87,6 +91,9 @@ class TicketsController extends Controller
             $table->addColumn('assigned_to_user_name', function ($row) {
                 return $row->assigned_to_user ? $row->assigned_to_user->name : '';
             });
+            $table->addColumn('assign_to_technical_person', function ($row) {
+                return $row->technicalPerson ? $row->technicalPerson->name : '';
+            });
 
             $table->addColumn('comments_count', function ($row) {
                 return $row->comments->count();
@@ -95,8 +102,11 @@ class TicketsController extends Controller
             $table->addColumn('view_link', function ($row) {
                 return route('admin.tickets.show', $row->id);
             });
+            $table->addColumn('inventory_names', function ($row) {
+                return $row->inventories->pluck('product_name')->implode(', '); // Adjust `product_name` to your Inventory table column
+            });
 
-            $table->rawColumns(['actions', 'placeholder', 'status', 'priority', 'category', 'assigned_to_user']);
+            $table->rawColumns(['actions', 'placeholder', 'status', 'priority', 'category', 'assigned_to_user','inventory_names']);
 
             return $table->make(true);
         }
@@ -120,26 +130,24 @@ class TicketsController extends Controller
 
         $inventories = Inventory::all()->pluck('inventory_id', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        $assigned_to_users = User::all()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'),'');
+        $assigned_to_users = User::all()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
         $users = User::whereHas('roles', function ($query) {
-            $query->where('title', 'Technical Person'); // Replace 'title' with the actual column name in your roles table
+            $query->where('title', 'Technical Person');
         })->get();
 
 
-
-        return view('admin.tickets.create', compact('statuses', 'priorities', 'categories', 'assigned_to_users', 'inventories','users'));
+        return view('admin.tickets.create', compact('statuses', 'priorities', 'categories', 'assigned_to_users', 'inventories', 'users'));
     }
 
     public function store(StoreTicketRequest $request)
     {
         $ticket = Ticket::create($request->all());
-
         foreach ($request->input('attachments', []) as $file) {
             $ticket->addMedia(storage_path('tmp/uploads/' . $file))->toMediaCollection('attachments');
         }
-        Mail::to(auth()->user()->email)->send(new TicketCreated($ticket));
 
-        return redirect()->route('admin.tickets.index')->with('success', 'Ticket created successfully!');
+        return redirect()->route('admin.tickets.index')->with('success', 'Ticket created successfully, and confirmation email sent!');
+
     }
 
     public function edit(Ticket $ticket)
@@ -152,43 +160,102 @@ class TicketsController extends Controller
 
         $categories = Category::all()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        $inventories = Inventory::all()->pluck('inventory_id', 'id')->prepend(trans('global.pleaseSelect'), '');
+        $inventories = Inventory::all()->pluck('product_name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        $assigned_to_users = User::all()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'),'');
+        $assigned_to_users = User::all()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
         $ticket->load('status', 'priority', 'category', 'assigned_to_user');
+        $users = User::whereHas('roles', function ($query) {
+            $query->where('title', 'Technical Person');
+        })->get();
 
-        return view('admin.tickets.edit', compact('statuses', 'priorities', 'categories', 'assigned_to_users', 'ticket', 'inventories'));
+        return view('admin.tickets.edit', compact('statuses', 'priorities', 'categories', 'assigned_to_users', 'ticket', 'inventories', 'users'));
     }
 
     public function update(UpdateTicketRequest $request, Ticket $ticket)
     {
-        $ticket->update($request->all());
+//        $ticket->update($request->all());
+        DB::beginTransaction();
 
-        if (count($ticket->attachments) > 0) {
-            foreach ($ticket->attachments as $media) {
-                if (!in_array($media->file_name, $request->input('attachments', []))) {
-                    $media->delete();
+        try {
+
+            $ticketData = [
+                'title' => $request->title,
+                'content' => $request->content,
+                'status_id' => $request->status_id,
+                'priority_id' => $request->priority_id,
+                'category_id' => $request->category_id,
+                'author_name' => $request->author_name,
+                'author_email' => $request->author_email,
+                'assigned_to_user_id' => $request->assigned_to_user_id,
+                'assign_to_technical_person_id' => $request->assign_to_technical_person_id,
+            ];
+            $ticket->update($ticketData);
+
+            // Update ticket attachments
+            if (count($ticket->attachments) > 0) {
+                foreach ($ticket->attachments as $media) {
+                    if (!in_array($media->file_name, $request->input('attachments', []))) {
+                        $media->delete();
+                    }
                 }
             }
-        }
 
-        $media = $ticket->attachments->pluck('file_name')->toArray();
+            $media = $ticket->attachments->pluck('file_name')->toArray();
 
-        foreach ($request->input('attachments', []) as $file) {
-            if (count($media) === 0 || !in_array($file, $media)) {
-                $ticket->addMedia(storage_path('tmp/uploads/' . $file))->toMediaCollection('attachments');
+            foreach ($request->input('attachments', []) as $file) {
+                if (count($media) === 0 || !in_array($file, $media)) {
+                    $ticket->addMedia(storage_path('tmp/uploads/' . $file))->toMediaCollection('attachments');
+                }
             }
+
+
+            $inventoryIds = $request->input('inventory_ids', []);
+
+
+            $existingInventoryIds = TicketMappedInventory::where('ticket_id', $ticket->id)
+                ->pluck('inventory_id')
+                ->toArray();
+
+
+            $inventoryIdsToRemove = array_diff($existingInventoryIds, $inventoryIds);
+            $inventoryIdsToAdd = array_diff($inventoryIds, $existingInventoryIds);
+
+            // Remove outdated inventory mappings
+            if (!empty($inventoryIdsToRemove)) {
+                TicketMappedInventory::where('ticket_id', $ticket->id)
+                    ->whereIn('inventory_id', $inventoryIdsToRemove)
+                    ->delete();
+            }
+
+
+
+            foreach ($inventoryIdsToAdd as $inventoryId) {
+                $existingMapping = TicketMappedInventory::where('inventory_id', $inventoryId)->exists();
+                if ($existingMapping) {
+                    throw new \Exception("Inventory ID {$existingMapping->product_name} is already mapped to another ticket.");
+                }
+                TicketMappedInventory::create([
+                    'inventory_id' => $inventoryId,
+                    'ticket_id' => $ticket->id,
+                    'status' => 1,
+                ]);
+            }
+
+            DB::commit();
+            return redirect()->route('admin.tickets.index')->with('success', 'Ticket updated successfully.');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->back()->withErrors(['error' => 'An error occurred: ' . $e->getMessage()]);
         }
 
-        return redirect()->route('admin.tickets.index');
     }
 
     public function show(Ticket $ticket)
     {
         abort_if(Gate::denies('ticket_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $ticket->load('status', 'priority', 'category', 'assigned_to_user', 'comments', 'inventory');
+        $ticket->load('status', 'priority', 'category', 'assigned_to_user', 'comments', 'inventory','inventories','technicalPerson');
 
         return view('admin.tickets.show', compact('ticket'));
     }
@@ -216,10 +283,10 @@ class TicketsController extends Controller
         ]);
         $user = auth()->user();
         $comment = $ticket->comments()->create([
-            'author_name'   => $user->name,
-            'author_email'  => $user->email,
-            'user_id'       => $user->id,
-            'comment_text'  => $request->comment_text
+            'author_name' => $user->name,
+            'author_email' => $user->email,
+            'user_id' => $user->id,
+            'comment_text' => $request->comment_text
         ]);
 
         $ticket->sendCommentNotification($comment);

@@ -1,9 +1,10 @@
 <?php
+namespace Database\Seeders;
 
-use App\Status;
+use App\Priority;
 use Illuminate\Database\Seeder;
 
-class StatusesTableSeeder extends Seeder
+class PrioritiesTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -13,14 +14,14 @@ class StatusesTableSeeder extends Seeder
     public function run()
     {
         $faker = Faker\Factory::create();
-        $statuses = [
-            'Open', 'Closed'
+        $priorities = [
+            'Low', 'Medium', 'High'
         ];
 
-        foreach($statuses as $status)
+        foreach($priorities as $priority)
         {
-            Status::create([
-                'name'  => $status,
+            Priority::create([
+                'name'  => $priority,
                 'color' => $faker->hexcolor
             ]);
         }

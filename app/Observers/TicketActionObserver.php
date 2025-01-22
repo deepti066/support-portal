@@ -1,32 +1,25 @@
 <?php
+namespace App\Mail;
 
-namespace App\Observers;
+use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Mail\Mailable;
+use Illuminate\Queue\SerializesModels;
 
-use App\Notifications\DataChangeEmailNotification;
-use App\Notifications\AssignedTicketNotification;
-use App\Ticket;
-use Illuminate\Support\Facades\Notification;
-
-class TicketActionObserver
+class TicketCreatedMail extends Mailable
 {
-    public function created(Ticket $model)
+    use Queueable, SerializesModels;
+
+    public $ticket;
+
+    public function __construct($ticket)
     {
-        $data  = ['action' => 'New ticket has been created!', 'model_name' => 'Ticket', 'ticket' => $model];
-        $users = \App\User::whereHas('roles', function ($q) {
-            return $q->where('title', 'Admin');
-        })->get();
-        Notification::send($users, new DataChangeEmailNotification($data));
+        $this->ticket = $ticket;
     }
 
-    public function updated(Ticket $model)
+    public function build()
     {
-        if($model->isDirty('assigned_to_user_id'))
-        {
-            $user = $model->assigned_to_user;
-            if($user)
-            {
-                Notification::send($user, new AssignedTicketNotification($model));
-            }
-        }
+        return $this->view('emails.ticket-created')
+                    ->subject('Your Ticket Has Been Created');
     }
 }

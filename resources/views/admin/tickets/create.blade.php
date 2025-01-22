@@ -229,28 +229,28 @@
     </script>
     <script>
         $(document).ready(function () {
-            // Get references to dropdowns and group
+
             const $categorySelect = $('#category');
             const $technicalPersonGroup = $('#technical-person-group');
             const $technicalPersonSelect = $('#technical_person');
 
-            // Function to toggle visibility based on category selection
+
             function toggleTechnicalPerson() {
 
                 const selectedCategory = $categorySelect.find(':selected').text().trim().toLowerCase();
                 console.log(selectedCategory)
                 if (selectedCategory === 'technical issue') {
-                    $technicalPersonGroup.show(); // Show the technical person field
+                    $technicalPersonGroup.show();
                 } else {
-                    $technicalPersonGroup.hide(); // Hide the field if not needed
-                    $technicalPersonSelect.val(''); // Clear selection
+                    $technicalPersonGroup.hide();
+                    $technicalPersonSelect.val('');
                 }
             }
 
-            // Initialize on page load
+
             toggleTechnicalPerson();
 
-            // Add event listener for category change
+
             $categorySelect.on('change', toggleTechnicalPerson);
         });
     </script>

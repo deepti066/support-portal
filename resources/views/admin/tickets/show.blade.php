@@ -91,6 +91,26 @@
                     </tr>
                     <tr>
                         <th>
+                            {{ trans('cruds.ticket.fields.inventory_items') }}
+                        </th>
+                        <td>
+                            @foreach($ticket->inventories as $inventory)
+                                <p>{{ $inventory->product_name ?? '' }}</p>
+                            @endforeach
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.ticket.fields.assigned_to_technical_person') }}
+                        </th>
+                        <td>
+
+                                <p>{{ $ticket->technicalPerson->name ?? '' }}</p>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
                             {{ trans('cruds.ticket.fields.author_name') }}
                         </th>
                         <td>

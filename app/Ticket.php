@@ -40,13 +40,15 @@ class Ticket extends Model implements HasMedia
         'author_name',
         'author_email',
         'assigned_to_user_id',
+        'inventory_id',
+        'assign_to_technical_person_id'
     ];
 
     public static function boot()
     {
         parent::boot();
 
-        Ticket::observe(new \App\Observers\TicketActionObserver);
+        // Ticket::observe(new \App\Observers\TicketActionObserver);
 
         static::addGlobalScope(new AgentScope);
     }
@@ -122,7 +124,7 @@ class Ticket extends Model implements HasMedia
                     })
                     ->orWhereHas('tickets', function ($q) {
                         return $q->whereId($this->id);
-                    }); 
+                    });
                 });
             })
             ->when(!$comment->user_id && !$this->assigned_to_user_id, function ($q) {
@@ -142,4 +144,15 @@ class Ticket extends Model implements HasMedia
             Notification::route('mail', $this->author_email)->notify($notification);
         }
     }
+
+    public function inventories()
+    {
+        return $this->belongsToMany(Inventory::class, 'ticket_mapped_inventories', 'ticket_id', 'inventory_id');
+    }
+
+    public function technicalPerson()
+    {
+        return $this->belongsTo(User::class, 'assign_to_technical_person_id');
+    }
+
 }

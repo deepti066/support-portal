@@ -153,7 +153,9 @@ return [
             'deleted_at_helper'       => '',
             'attachments'             => 'Attachments',
             'attachments_helper'      => '',
-            'technical_person'        =>'Technical Person'
+            'technical_person'        => 'Technical Person',
+            'inventory_items'         => 'Inventory Items',
+            'assigned_to_technical_person'=>'Assigned To Technical Person'
         ],
     ],
 
@@ -226,6 +228,24 @@ return [
             'created_at_helper'   => '',
             'updated_at'          => 'Updated at',
             'updated_at_helper'   => '',
+        ],
+    ],
+    'model'        =>[
+        'title'      => 'Model',
+        'title_singular'    => 'Model',
+        'fields'     => [
+            'id'                => 'ID',
+            'id_helper'         => '',
+            'name'              => 'Name',
+            'name_helper'       => '',
+            'color'             => 'Color',
+            'color_helper'      => '',
+            'created_at'        => 'Create at',
+            'created_at_helper' => '',
+            'updated_at'        => 'Updated at',
+            'updated_at_helper' => '',
+            'deleted_at'        => 'Deleted at',
+            'deleted_at_helper' => '',
         ],
     ],
 ];

@@ -34,6 +34,7 @@ class StoreTicketRequest extends FormRequest
                 'required',
                 'integer',
             ],
+            // 'attachments.*' => 'mimes:jpeg,png,jpg,gif,svg,pdf|max:2048',
         ];
     }
 }
