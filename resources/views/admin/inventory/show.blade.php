@@ -21,7 +21,7 @@
                 </tr>
                 <tr>
                     <th>{{ trans('cruds.inventory.fields.inv_id')}}</th>
-                    <td>{{ $inventory->inv_id}}</td>
+                    <td>{{ $inventory->inv_id }}</td>
                 </tr>
                 <tr>
                     <th>{{ trans('cruds.inventory.fields.serial_no') }}</th>

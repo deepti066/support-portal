@@ -85,7 +85,7 @@
                 @endif
             </div>
             <div class="form-group">
-                <label for="model">{{ trans('cruds.inventory.fields.stock_out_quantity') }}</label>
+                <label for="stock_out_quantity">{{ trans('cruds.inventory.fields.stock_out_quantity') }}</label>
                 <input class="form-control {{ $errors->has('stock_out_quantity') ? 'is-invalid' : '' }}" type="text" name="stock_out_quantity" id="stock_out_quantity" value="{{ old('stock_out_quantity', '') }}">
                 @if($errors->has('stock_out_quantity'))
                     <span class="text-danger">{{ $errors->first('stock_out_quantity') }}</span>

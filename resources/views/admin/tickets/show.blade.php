@@ -33,14 +33,6 @@
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.ticket.fields.inventory_id') }}
-                        </th>
-                        <td>
-                            {{ $ticket->inventory_id }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
                             {{ trans('cruds.ticket.fields.title') }}
                         </th>
                         <td>
