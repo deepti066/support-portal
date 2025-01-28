@@ -50,16 +50,16 @@
                     <span class="text-danger">{{ $errors->first('make') }}</span>
                 @endif
             </div>
-            <div class="form-group {{ $errors->has('model_id') ? 'has-error' : '' }}">
+            <div class="form-group {{ $errors->has('model') ? 'has-error' : '' }}">
                 <label for="model">{{ trans('cruds.inventory.fields.model') }}*</label>
-                <select name="model_id" id="model" class="form-control select2" required>
+                <select name="model" id="model" class="form-control select2" required>
                     @foreach($models as $id => $model)
-                        <option value="{{ $id }}" {{ (isset($inventory) && $inventory->model ? $inventory->model->id : old('model_id')) == $id ? 'selected' : '' }}>{{ $model }}</option>
+                        <option value="{{ $id }}" {{ (isset($inventory) && $inventory->model ? $inventory->model->id : old('model')) == $id ? 'selected' : '' }}>{{ $model }}</option>
                     @endforeach
                 </select>
-                @if($errors->has('model_id'))
+                @if($errors->has('model'))
                     <em class="invalid-feedback">
-                        {{ $errors->first('model_id') }}
+                        {{ $errors->first('model') }}
                     </em>
                 @endif
             </div>

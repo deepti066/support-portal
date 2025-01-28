@@ -50,5 +50,10 @@ class Inventory extends Model
 
         return "{$prefix}-{$randomString}";
     }
+    public function models()
+    {
+        return $this->hasOne(Models::class, 'id', 'model');
+    }
+
 }
 

@@ -130,10 +130,13 @@ class TicketsController extends Controller
 
         $inventories = Inventory::all()->pluck('inventory_id', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        $assigned_to_users = User::all()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+        // $assigned_to_users = User::all()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
         $users = User::whereHas('roles', function ($query) {
             $query->where('title', 'Technical Person');
         })->get();
+        $assigned_to_users = User::whereHas('roles', function ($query) {
+            $query->where('title', 'Agent');
+        })->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
 
         return view('admin.tickets.create', compact('statuses', 'priorities', 'categories', 'assigned_to_users', 'inventories', 'users'));
@@ -165,13 +168,15 @@ class TicketsController extends Controller
 
         $inventories = Inventory::all()->pluck('product_name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        $assigned_to_users = User::all()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+        // $assigned_to_users = User::all()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
         $ticket->load('status', 'priority', 'category', 'assigned_to_user');
         $users = User::whereHas('roles', function ($query) {
             $query->where('title', 'Technical Person');
         })->get();
-
+        $assigned_to_users = User::whereHas('roles', function ($query) {
+            $query->where('title', 'Agent');
+        })->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
         return view('admin.tickets.edit', compact('statuses', 'priorities', 'categories', 'assigned_to_users', 'ticket', 'inventories', 'users'));
     }
 

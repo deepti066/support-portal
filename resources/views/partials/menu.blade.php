@@ -97,7 +97,7 @@
             @can('model_access')
             <li class="nav-item">
                 <a href="{{ route("admin.model.index") }}" class="nav-link {{ request()->is('admin/model') || request()->is('admin/model/*') ? 'active' : '' }}">
-                    <i class="fa-fw fas fa-box nav-icon">
+                    <i class="fas fa-server nav-icon">
 
                     </i>
                     {{ trans('cruds.model.title') }}

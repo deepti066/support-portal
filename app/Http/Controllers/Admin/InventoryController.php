@@ -19,11 +19,13 @@ class InventoryController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $query = Inventory::select("*");
+            $query = Inventory::with('models')->select("*");
 
             if ($request->has('model_id') && $request->model_id != '') {
                 $query->where('model', $request->model_id);
+            
             }
+
 
             $table = Datatables::of($query);
 
@@ -68,7 +70,8 @@ class InventoryController extends Controller
             });
 
             $table->editColumn('model', function ($row) {
-                return $row->model ? $row->model : "";
+                
+                return $row->models ? $row->models->name : "";
             });
     
             $table->editColumn('invoice_date', function ($row) {
@@ -123,6 +126,7 @@ class InventoryController extends Controller
     public function create()
     {
         $models = Models::all()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+        
 
         $brands = Brand::all()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
         
@@ -147,7 +151,7 @@ class InventoryController extends Controller
         'used_in'              => 'nullable|string|max:255',
         'used_by'              => 'nullable|string|max:255',
     ]);
-    
+   
     Inventory::create($validated);
     return redirect()->route('admin.inventory.index');
 }
