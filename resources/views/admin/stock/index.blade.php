@@ -51,12 +51,6 @@
                         {{ trans('cruds.inventory.fields.asset_description') }}
                     </th>
                     <th>
-                        {{ trans('cruds.inventory.fields.stock_in_quantity') }}
-                    </th>
-                    <th>
-                        {{ trans('cruds.inventory.fields.stock_in_date') }}
-                    </th>
-                    <th>
                         {{ trans('cruds.inventory.fields.stock_out_quantity') }}
                     </th>
                     <th>
@@ -179,8 +173,6 @@
                 { data: 'make', name: 'make' },
                 { data: 'model', name: 'model' },
                 { data: 'asset_description', name: 'asset_description' },
-                { data: 'stock_in_quantity', name: 'stock_in_quantity' },
-                { data: 'stock_in_date', name: 'stock_in_date' },
                 { data: 'stock_out_quantity', name: 'stock_out_quantity' },
                 { data: 'stock_out_date', name: 'stock_out_date' },
                 { data: 'balance_quantity', name: 'balance_quantity' },

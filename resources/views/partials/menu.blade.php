@@ -126,6 +126,17 @@
                 </li>
             @endcan
 
+            @can('stock_access')
+                    <li class="nav-item">
+                        <a href="{{ route("admin.inventory.index") }}" class="nav-link {{ request()->is('admin/inventory') || request()->is('admin/inventory/*') ? 'active' : '' }}">
+                            <i class="fa-fw fas fa-box nav-icon">
+
+                            </i>
+                            {{ trans('cruds.inventory.title') }}
+                        </a>
+                    </li>
+            @endcan
+
            @can('comment_access')
                 <li class="nav-item">
                     <a href="{{ route("admin.comments.index") }}" class="nav-link {{ request()->is('admin/comments') || request()->is('admin/comments/*') ? 'active' : '' }}">

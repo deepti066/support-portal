@@ -64,20 +64,6 @@
                 @endif
             </div>
             <div class="form-group">
-                <label for="stock_in_quantity">{{ trans('cruds.inventory.fields.stock_in_quantity') }}</label>
-                <input class="form-control {{ $errors->has('stock_in_quantity') ? 'is-invalid' : '' }}" type="text" name="stock_in_quantity" id="stock_in_quantity" value="{{ old('stock_in_quantity', '') }}">
-                @if($errors->has('stock_in_quantity'))
-                    <span class="text-danger">{{ $errors->first('stock_in_quantity') }}</span>
-                @endif
-            </div>
-            <div class="form-group">
-                <label for="stock_in_date">{{ trans('cruds.inventory.fields.stock_in_date') }}</label>
-                <input class="form-control {{ $errors->has('stock_in_date') ? 'is-invalid' : '' }}" type="date" name="stock_in_date" id="stock_in_date" value="{{ old('stock_in_date', '') }}">
-                @if($errors->has('stock_in_date'))
-                    <span class="text-danger">{{ $errors->first('stock_in_date') }}</span>
-                @endif
-            </div>
-            <div class="form-group">
                 <label for="stock_out_quantity">{{ trans('cruds.inventory.fields.stock_out_quantity') }}</label>
                 <input class="form-control {{ $errors->has('stock_out_quantity') ? 'is-invalid' : '' }}" type="text" name="stock_out_quantity" id="stock_out_quantity" value="{{ old('stock_out_quantity', '') }}">
                 @if($errors->has('stock_out_quantity'))
