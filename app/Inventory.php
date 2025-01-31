@@ -16,6 +16,7 @@ class Inventory extends Model
 
     protected $keyType = 'string';
     public $incrementing = false;
+    protected $with = ['models'];
 
     protected $fillable =[
         'id',
@@ -55,5 +56,38 @@ class Inventory extends Model
         return $this->hasOne(Models::class, 'id', 'model');
     }
 
+    public function stocks()
+    {
+        return $this->hasMany(Stock::class, 'inventory_id', 'id');
+    }
+
+
+    public function stock_in()
+{
+    return $this->hasMany(Stock::class, 'inventory_id', 'id')->where('stock_type', 1);
+}
+
+public function stock_out()
+{
+    return $this->hasMany(Stock::class, 'inventory_id', 'id')->where('stock_type', 2);
+}
+
+// Method to get total stock in
+public function totalStockIn()
+{
+    return $this->stock_in()->sum('stock_quantity');
+}
+
+// Method to get total stock out
+public function totalStockOut()
+{
+    return $this->stock_out()->sum('stock_quantity');
+}
+
+// Method to get available stock
+public function availableStock()
+{
+    return $this->totalStockIn() - $this->totalStockOut();
+}
 }
 

@@ -6,13 +6,10 @@
             <a class="btn btn-success" href="{{ route('admin.inventory.create') }}">
                 {{ trans('global.add') }} {{ trans('cruds.inventory.title_singular') }}
             </a>
-            <a class="btn btn-success" href="{{ route('admin.statuses.create') }}">     
-                {{ trans('global.add_stock_out') }} {{ trans('cruds.inventory.title_singular') }}
-            </a>
         </div>
     </div>
 @endcan
-
+  
 <div class="card">
     <div class="card-header">
         {{ trans('cruds.inventory.title_singular') }} {{ trans('global.list') }}

@@ -128,11 +128,11 @@
 
             @can('stock_access')
                     <li class="nav-item">
-                        <a href="{{ route("admin.inventory.index") }}" class="nav-link {{ request()->is('admin/inventory') || request()->is('admin/inventory/*') ? 'active' : '' }}">
+                        <a href="{{ route("admin.stock.index") }}" class="nav-link {{ request()->is('admin/stock') || request()->is('admin/stock/*') ? 'active' : '' }}">
                             <i class="fa-fw fas fa-box nav-icon">
 
                             </i>
-                            {{ trans('cruds.inventory.title') }}
+                            {{ trans('cruds.stock.title') }}
                         </a>
                     </li>
             @endcan

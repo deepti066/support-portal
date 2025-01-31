@@ -65,6 +65,11 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::delete('inventory/destroy', 'InventoryController@massDestroy')->name('inventory.massDestroy');
     Route::resource('inventory', 'InventoryController');
    
+    //Stock
+    Route::delete('stock/destroy', 'StockController@massDestroy')->name('stock.massDestroy');
+    Route::resource('stock', 'StockController');
+    Route::post('stock/in', 'StockController@stockIn')->name('stock.stockIn');
+    Route::post('stock/out', 'StockController@stockOut')->name('stock.stockOut');
     
 
 

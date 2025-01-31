@@ -1,13 +1,10 @@
 @extends('layouts.admin')
 @section('content')
-@can('inventory_create')
+@can('stock_create')
     <div style="margin-bottom: 10px;" class="row">
         <div class="col-lg-12">
-            <a class="btn btn-success" href="{{ route('admin.inventory.create') }}">
-                {{ trans('global.add') }} {{ trans('cruds.inventory.title_singular') }}
-            </a>
-            <a class="btn btn-success" href="{{ route('admin.statuses.create') }}">     
-                {{ trans('global.add_stock_out') }} {{ trans('cruds.inventory.title_singular') }}
+            <a class="btn btn-success" href="{{ route('admin.stock.create') }}">
+                {{ trans('global.add') }} {{ trans('cruds.stock.title_singular') }}
             </a>
         </div>
     </div>
@@ -15,55 +12,49 @@
 
 <div class="card">
     <div class="card-header">
-        {{ trans('cruds.inventory.title_singular') }} {{ trans('global.list') }}
+        {{ trans('cruds.stock.title_singular') }} {{ trans('global.list') }}
     </div>
 
     <div class="card-body">
-        <table class=" table table-bordered table-striped table-hover ajaxTable datatable datatable-Inventory">
+        <table class=" table table-bordered table-striped table-hover ajaxTable datatable datatable-Stock">
             <thead>
                 <tr>
                     <th width="10"></th>
                     <th>
-                        {{ trans('cruds.inventory.fields.id') }}
+                        {{ trans('cruds.stock.fields.id') }}
                     </th>
                     <th>
-                        {{ trans('cruds.inventory.fields.inv_id')}}
+                        {{ trans('cruds.stock.fields.serial_no') }}
                     </th>
                     <th>
-                        {{ trans('cruds.inventory.fields.serial_no') }}
+                        {{ trans('cruds.stock.fields.product_name') }}
                     </th>
                     <th>
-                        {{ trans('cruds.inventory.fields.product_name') }}
+                        {{ trans('cruds.stock.fields.invoice_no') }}
                     </th>
                     <th>
-                        {{ trans('cruds.inventory.fields.invoice_no') }}
+                        {{ trans('cruds.stock.fields.invoice_date') }}
                     </th>
                     <th>
-                        {{ trans('cruds.inventory.fields.invoice_date') }}
+                        {{ trans('cruds.stock.fields.model') }}
                     </th>
                     <th>
-                        {{ trans('cruds.inventory.fields.make') }}
+                        {{ trans('cruds.stock.fields.asset_description') }}
                     </th>
                     <th>
-                        {{ trans('cruds.inventory.fields.model') }}
+                        {{ trans('cruds.stock.fields.stock_out_quantity') }}
                     </th>
                     <th>
-                        {{ trans('cruds.inventory.fields.asset_description') }}
+                        {{ trans('cruds.stock.fields.stock_out_date') }}
                     </th>
                     <th>
-                        {{ trans('cruds.inventory.fields.stock_out_quantity') }}
+                        {{ trans('cruds.stock.fields.balance_quantity') }}
                     </th>
                     <th>
-                        {{ trans('cruds.inventory.fields.stock_out_date') }}
+                        {{ trans('cruds.stock.fields.used_in') }}
                     </th>
                     <th>
-                        {{ trans('cruds.inventory.fields.balance_quantity') }}
-                    </th>
-                    <th>
-                        {{ trans('cruds.inventory.fields.used_in') }}
-                    </th>
-                    <th>
-                        {{ trans('cruds.inventory.fields.used_by') }}
+                        {{ trans('cruds.stock.fields.used_by') }}
                     </th>
                     <th>
                         &nbsp;
@@ -71,21 +62,21 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach($inventories as $inventory)
-                    <tr data-entry-id="{{ $inventory->id }}">
+                @foreach($stocks as $stock)
+                    <tr data-entry-id="{{ $stock->id }}">
                         <td></td>
-                        <td>{{ $inventory->id ?? '' }}</td>
-                        <td>{{ $inventory->product_name ?? '' }}</td>
-                        <td style="background-color:{{ $inventory->color ?? '#FFFFFF' }}"></td>
+                        <td>{{ $stock->id ?? '' }}</td>
+                        <td>{{ $stock->product_name ?? '' }}</td>
+                        <td style="background-color:{{ $stock->color ?? '#FFFFFF' }}"></td>
                         <td>
-                            @can('inventory_show')
-                                <a class="btn btn-xs btn-primary" href="{{ route('admin.inventory.show', $inventory->id) }}">
+                            @can('stock_show')
+                                <a class="btn btn-xs btn-primary" href="{{ route('admin.stock.show', $stock->id) }}">
                                     {{ trans('global.view') }}
                                 </a>
                             @endcan
             
-                            @can('inventory_edit')
-                                <a class="btn btn-xs btn-info" href="{{ route('admin.inventory.edit', $inventory->id) }}">
+                            @can('stock_edit')
+                                <a class="btn btn-xs btn-info" href="{{ route('admin.stock.edit', $stock->id) }}">
                                     {{ trans('global.edit') }}
                                 </a>
                             @endcan
@@ -120,11 +111,11 @@
         });
 
         let dtButtons = []
-        @can('inventory_delete')
+        @can('stock_delete')
         let deleteButtonTrans = '{{ trans('global.datatables.delete') }}';
         let deleteButton = {
             text: deleteButtonTrans,
-            url: "{{ route('admin.inventory.massDestroy') }}",
+            url: "{{ route('admin.stock.massDestroy') }}",
             className: 'btn-danger',
             action: function (e, dt, node, config) {
                 var ids = $.map(dt.rows({ selected: true }).data(), function (entry) {
@@ -157,7 +148,7 @@
             retrieve: true,
             aaSorting: [],
             ajax: {
-                url: "{{ route('admin.inventory.index') }}",
+                url: "{{ route('admin.stock.index') }}",
                 data: {
                     'model': searchParams.get('model'),
                 }
@@ -165,12 +156,10 @@
             columns: [
                 { data: 'placeholder', name: 'placeholder' },
                 { data: 'id', name: 'id' },
-                { data: 'inv_id', name: 'inv_id'},
                 { data: 'serial_no', name: 'serial_no' },
                 { data: 'product_name', name: 'product_name' },
                 { data: 'invoice_no', name: 'invoice_no' },
                 { data: 'invoice_date', name: 'invoice_date' },
-                { data: 'make', name: 'make' },
                 { data: 'model', name: 'model' },
                 { data: 'asset_description', name: 'asset_description' },
                 { data: 'stock_out_quantity', name: 'stock_out_quantity' },
@@ -184,11 +173,11 @@
             pageLength: 100,
         };
 
-        $(".datatable-Inventory").one("preInit.dt", function () {
+        $(".datatable-Stock").one("preInit.dt", function () {
             $(".dataTables_filter").after(filters);
         });
 
-        $('.datatable-Inventory').DataTable(dtOverrideGlobals);
+        $('.datatable-Stock').DataTable(dtOverrideGlobals);
 
         $('a[data-toggle="tab"]').on('shown.bs.tab', function(e){
             $($.fn.dataTable.tables(true)).DataTable()

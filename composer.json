@@ -42,6 +42,9 @@
         "psr-4": {
             "App\\": "app/"
         },
+        "files": [
+            "app/Helpers/custom_helper.php"
+        ],
         "classmap": [
             "database/seeders",
             "database/factories"
@@ -67,4 +70,5 @@
             "@php artisan key:generate --ansi"
         ]
     }
+
 }

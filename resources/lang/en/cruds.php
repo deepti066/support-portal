@@ -177,8 +177,8 @@ return [
                 'stock_out_quantity'    => 'Stock_out_Quantity',
                 'stock_out_date'        => 'Stock_out_Date',
                 'balance_quantity'      => 'Balance_Quantity',
-                'used_in'               => 'Used_in',
-                'used_by'               => 'Used_by',
+                'used_in'               => 'Used_In',
+                'used_by'               => 'Used_By',
             ],
         ],
 
@@ -186,7 +186,18 @@ return [
             'title'             =>'Stock',
             'title_singular'    => 'Stock',
             'fields'    =>[
-                
+                'id'            => 'ID',
+                'serial_no'     => 'Serial_No',
+                'product_name'  => 'Product_Name',
+                'invoice_date'  => 'Invoice_Date',
+                'invoice_no'    => 'Invoice_No',
+                'model'         => 'Model',
+                'asset_description' => 'Asset_Description',
+                'stock_out_quantity'    => 'Stock_Out_Quantity',
+                'stock_out_date'        => 'Stock_Out_Date',
+                'balance_quantity'      => 'Balance_Quantity',
+                'used_in'               => 'Used_In',
+                'used_by'               => 'Used_By',
             ]
         ],
 

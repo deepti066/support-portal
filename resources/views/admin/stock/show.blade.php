@@ -2,7 +2,7 @@
 @section('content')
 <div class="card">
     <div class="card-header">
-        {{ trans('global.show') }} {{ trans('cruds.inventory.title_singular') }}
+        {{ trans('global.show') }} {{ trans('cruds.stock.title_singular') }}
     </div>
 
     <div class="card-body">
@@ -16,61 +16,60 @@
         <table class="table table-bordered table-striped">
             <tbody>
                 <tr>
-                    <th>{{ trans('cruds.inventory.fields.id') }}</th>
-                    <td>{{ $inventory->id }}</td>
+                    <th>{{ trans('cruds.stock.fields.id') }}</th>
+                    <td>{{ $stock->id }}</td>
                 </tr>
                 <tr>
-                    <th>{{ trans('cruds.inventory.fields.inv_id')}}</th>
-                    <td>{{ $inventory->inv_id }}</td>
+                    <th>{{ trans('cruds.stock.fields.serial_no') }}</th>
+                    <td>{{ $stock->serial_no }}</td>
                 </tr>
                 <tr>
-                    <th>{{ trans('cruds.inventory.fields.serial_no') }}</th>
-                    <td>{{ $inventory->serial_no }}</td>
+                    <th>{{ trans('cruds.stock.fields.product_name') }}</th>
+                    <td>{{ $stock->product_name }}</td>
                 </tr>
                 <tr>
-                    <th>{{ trans('cruds.inventory.fields.product_name') }}</th>
-                    <td>{{ $inventory->product_name }}</td>
+                    <th>{{ trans('cruds.stock.fields.invoice_no') }}</th>
+                    <td>{{ $stock->invoice_no }}</td>
                 </tr>
                 <tr>
-                    <th>{{ trans('cruds.inventory.fields.invoice_no') }}</th>
-                    <td>{{ $inventory->invoice_no }}</td>
+                    <th>{{ trans('cruds.stock.fields.invoice_date') }}</th>
+                    <td>{{ $stock->invoice_date }}</td>
                 </tr>
-                <tr>
-                    <th>{{ trans('cruds.inventory.fields.invoice_date') }}</th>
-                    <td>{{ $inventory->invoice_date }}</td>
-                </tr>
-                <tr>
-                    <th>{{ trans('cruds.inventory.fields.make') }}</th>
+                {{-- <tr>
+                    <th>{{ trans('cruds.stock.fields.make') }}</th>
                     <td>{{ $inventory->make }}</td>
+                </tr> --}}
+                <tr>
+                    <th>{{ trans('cruds.stock.fields.model') }}</th>
+                    <td>{{ $stock->model }}</td>
                 </tr>
                 <tr>
-                    <th>{{ trans('cruds.inventory.fields.model') }}</th>
-                    <td>{{ $inventory->model }}</td>
+                    <th>{{ trans('cruds.stock.fields.asset_description') }}</th>
+                    <td>{{ $stock->asset_description }}</td>
                 </tr>
                 <tr>
-                    <th>{{ trans('cruds.inventory.fields.asset_description') }}</th>
-                    <td>{{ $inventory->asset_description }}</td>
+                    <th>{{ trans('cruds.stock.fields.stock_out_quantity') }}</th>
+                    <td>{{ $stock->stock_out_quantity }}</td>
                 </tr>
                 <tr>
-                    <th>{{ trans('cruds.inventory.fields.stock_out_quantity') }}</th>
-                    <td>{{ $inventory->stock_out_quantity }}</td>
+                    <th>{{ trans('cruds.stock.fields.balance_quantity') }}</th>
+                    <td>{{ $stock->balance_quantity }}</td>
                 </tr>
                 <tr>
-                    <th>{{ trans('cruds.inventory.fields.balance_quantity') }}</th>
-                    <td>{{ $inventory->balance_quantity }}</td>
+                    <th>{{ trans('cruds.stock.fields.used_in') }}</th>
+                    <td>{{ $stock->used_in }}</td>
                 </tr>
                 <tr>
-                    <th>{{ trans('cruds.inventory.fields.used_in') }}</th>
-                    <td>{{ $inventory->used_in }}</td>
-                </tr>
-                <tr>
-                    <th>{{ trans('cruds.inventory.fields.used_by') }}</th>
-                    <td>{{ $inventory->used_by }}</td>
+                    <th>{{ trans('cruds.stock.fields.used_by') }}</th>
+                    <td>{{ $stock->used_by }}</td>
                 </tr>
             </tbody>
         </table>
-        <a class="btn btn-primary" href="{{ route('admin.inventory.index') }}">
+        <a class="btn btn-primary" href="{{ route('admin.stock.index') }}">
             {{ trans('global.back_to_list') }}
+        </a>
+        <a class="btn btn-primary" href="{{ route('admin.stock.index') }}">
+            {{ trans('global.stock_details') }}
         </a>
     </div>
 
