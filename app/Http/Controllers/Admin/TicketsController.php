@@ -184,7 +184,7 @@ class TicketsController extends Controller
     {
 //        $ticket->update($request->all());
         DB::beginTransaction();
-
+        
         try {
 
             $ticketData = [
@@ -239,10 +239,10 @@ class TicketsController extends Controller
 
 
             foreach ($inventoryIdsToAdd as $inventoryId) {
-                $existingMapping = TicketMappedInventory::where('inventory_id', $inventoryId)->exists();
-                if ($existingMapping) {
-                    throw new \Exception("Inventory ID {$existingMapping->product_name} is already mapped to another ticket.");
-                }
+                // $existingMapping = TicketMappedInventory::where('inventory_id', $inventoryId)->exists();
+                // if ($existingMapping) {
+                //     throw new \Exception("Inventory ID {$existingMapping->product_name} is already mapped to another ticket.");
+                // }
                 TicketMappedInventory::create([
                     'inventory_id' => $inventoryId,
                     'ticket_id' => $ticket->id,

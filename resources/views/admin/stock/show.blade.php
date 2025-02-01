@@ -21,11 +21,11 @@
                 </tr>
                 <tr>
                     <th>{{ trans('cruds.stock.fields.serial_no') }}</th>
-                    <td>{{ $stock->serial_no }}</td>
+                    <td>{{ $stock->inventory->serial_no }}</td>
                 </tr>
                 <tr>
                     <th>{{ trans('cruds.stock.fields.product_name') }}</th>
-                    <td>{{ $stock->product_name }}</td>
+                    <td>{{ $stock->inventory->product_name }}</td>
                 </tr>
                 <tr>
                     <th>{{ trans('cruds.stock.fields.invoice_no') }}</th>
@@ -33,7 +33,7 @@
                 </tr>
                 <tr>
                     <th>{{ trans('cruds.stock.fields.invoice_date') }}</th>
-                    <td>{{ $stock->invoice_date }}</td>
+                    <td>{{ $stock->inventory->invoice_date }}</td>
                 </tr>
                 {{-- <tr>
                     <th>{{ trans('cruds.stock.fields.make') }}</th>
@@ -41,19 +41,19 @@
                 </tr> --}}
                 <tr>
                     <th>{{ trans('cruds.stock.fields.model') }}</th>
-                    <td>{{ $stock->model }}</td>
+                    <td>{{ $stock->inventory->models->name }}</td>
                 </tr>
                 <tr>
                     <th>{{ trans('cruds.stock.fields.asset_description') }}</th>
-                    <td>{{ $stock->asset_description }}</td>
+                    <td>{{ $stock->inventory->asset_description }}</td>
                 </tr>
                 <tr>
                     <th>{{ trans('cruds.stock.fields.stock_out_quantity') }}</th>
-                    <td>{{ $stock->stock_out_quantity }}</td>
+                    <td>{{ $stock->stock_quantity }}</td>
                 </tr>
                 <tr>
                     <th>{{ trans('cruds.stock.fields.balance_quantity') }}</th>
-                    <td>{{ $stock->balance_quantity }}</td>
+                    <td>{{ $stock->stock_type }}</td>
                 </tr>
                 <tr>
                     <th>{{ trans('cruds.stock.fields.used_in') }}</th>
@@ -68,9 +68,9 @@
         <a class="btn btn-primary" href="{{ route('admin.stock.index') }}">
             {{ trans('global.back_to_list') }}
         </a>
-        <a class="btn btn-primary" href="{{ route('admin.stock.index') }}">
+        {{-- <a class="btn btn-primary" href="{{ route('admin.stock.index') }}">
             {{ trans('global.stock_details') }}
-        </a>
+        </a> --}}
     </div>
 
     <nav class="mb-3">

@@ -16,6 +16,7 @@ class CreateInventoryStockTable extends Migration
         Schema::create('inventory_stocks', function (Blueprint $table) {
             $table->id();
             $table->string('invoice_no')->nullable();
+            $table->date('invoice_date')->nullable();
             $table->integer('stock_type')->nullable();
             $table->integer('stock_quantity')->nullable();
             $table->date('stock_date')->nullable();

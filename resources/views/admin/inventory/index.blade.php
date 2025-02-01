@@ -32,12 +32,12 @@
                     <th>
                         {{ trans('cruds.inventory.fields.product_name') }}
                     </th>
-                    <th>
+                    {{-- <th>
                         {{ trans('cruds.inventory.fields.invoice_no') }}
                     </th>
                     <th>
                         {{ trans('cruds.inventory.fields.invoice_date') }}
-                    </th>
+                    </th> --}}
                     <th>
                         {{ trans('cruds.inventory.fields.make') }}
                     </th>
@@ -47,7 +47,7 @@
                     <th>
                         {{ trans('cruds.inventory.fields.asset_description') }}
                     </th>
-                    <th>
+                    {{-- <th>
                         {{ trans('cruds.inventory.fields.stock_in_quantity') }}
                     </th>
                     <th>
@@ -67,7 +67,7 @@
                     </th>
                     <th>
                         {{ trans('cruds.inventory.fields.used_by') }}
-                    </th>
+                    </th> --}}
                     <th>
                         &nbsp;
                     </th>
@@ -171,18 +171,18 @@
                 { data: 'inv_id', name: 'inv_id'},
                 { data: 'serial_no', name: 'serial_no' },
                 { data: 'product_name', name: 'product_name' },
-                { data: 'invoice_no', name: 'invoice_no' },
-                { data: 'invoice_date', name: 'invoice_date' },
+                // { data: 'invoice_no', name: 'invoice_no' },
+                // { data: 'invoice_date', name: 'invoice_date' },
                 { data: 'make', name: 'make' },
                 { data: 'model', name: 'model' },
                 { data: 'asset_description', name: 'asset_description' },
-                { data: 'stock_in_quantity', name: 'stock_in_quantity' },
-                { data: 'stock_in_date', name: 'stock_in_date' },
-                { data: 'stock_out_quantity', name: 'stock_out_quantity' },
-                { data: 'stock_out_date', name: 'stock_out_date' },
-                { data: 'balance_quantity', name: 'balance_quantity' },
-                { data: 'used_in', name: 'used_in' },
-                { data: 'used_by', name: 'used_by' },
+                // { data: 'stock_in_quantity', name: 'stock_in_quantity' },
+                // { data: 'stock_in_date', name: 'stock_in_date' },
+                // { data: 'stock_out_quantity', name: 'stock_out_quantity' },
+                // { data: 'stock_out_date', name: 'stock_out_date' },
+                // { data: 'balance_quantity', name: 'balance_quantity' },
+                // { data: 'used_in', name: 'used_in' },
+                // { data: 'used_by', name: 'used_by' },
                 { data: 'actions', name: '{{ trans('global.actions') }}' }
             ],
             order: [[ 4, 'ASC' ]],

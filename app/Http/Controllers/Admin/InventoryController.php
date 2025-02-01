@@ -94,8 +94,6 @@ class InventoryController extends Controller
                 return stock_out($row->id);
             });
 
-            
-
             $table->editColumn('balance_quantity', function ($row) {
                 return calculateStock($row->id);
             });
@@ -136,7 +134,6 @@ class InventoryController extends Controller
     $validated = $request->validate([
         'serial_no'            => 'nullable|string|max:255|unique:inventories,serial_no',
         'product_name'         => 'required|string|max:255',
-       
         'make'                 => 'nullable|string|max:255',
         'model'                => 'nullable|string|max:255',
         'asset_description'    => 'nullable|string|max:500',
@@ -149,41 +146,41 @@ class InventoryController extends Controller
     return redirect()->route('admin.inventory.index');
 }
 
-public function stockIn(Request $request)
-{
-    $validated = $request->validate([
-        'inventory_id'         => 'nullable|integer',
-        'stock_type'           => 'nullable|integer',
-        'invoice_no'           => 'nullable|string|max:255',
-        'stock_quantity'       => 'nullable|integer|min:0',
-        'stock_date'           => 'nullable|date',
-    ]);
+// public function stockIn(Request $request)
+// {
+//     $validated = $request->validate([
+//         'inventory_id'         => 'nullable|integer',
+//         'stock_type'           => 'nullable|integer',
+//         'invoice_no'           => 'nullable|string|max:255',
+//         'stock_quantity'       => 'nullable|integer|min:0',
+//         'stock_date'           => 'nullable|date',
+//     ]);
    
-    Stock::create($validated);
-    return redirect()->route('admin.stock.index');
-}    
+//     Stock::create($validated);
+//     return redirect()->route('admin.stock.index');
+// }    
 
-public function stockOut(Request $request)
-{
-    $validated = $request->validate([
-        'inventory_id'         => 'nullable|integer',
-        'stock_type'           => 'nullable|integer',
-        'invoice_no'           => 'nullable|string|max:255',
-        'stock_quantity'       => 'nullable|integer|min:0',
-        'stock_date'           => 'nullable|date',
-        'used_in'              => 'nullable|string|max:255',
-        'used_by'              => 'nullable|string|max:255',
-    ]);
-    // $stockIn = stock::where(['inventory_id'=>$request->inventory_id,'stock_type'=>1])->sum('stock_quantity');
-    // $stockOut = stock::where(['inventory_id'=>$request->inventory_id,'stock_type'=>2])->sum('stock_quantity');
-    $availableStock = calculateStock($request->inventory_id);
+// public function stockOut(Request $request)
+// {
+//     $validated = $request->validate([
+//         'inventory_id'         => 'nullable|integer',
+//         'stock_type'           => 'nullable|integer',
+//         'invoice_no'           => 'nullable|string|max:255',
+//         'stock_quantity'       => 'nullable|integer|min:0',
+//         'stock_date'           => 'nullable|date',
+//         'used_in'              => 'nullable|string|max:255',
+//         'used_by'              => 'nullable|string|max:255',
+//     ]);
+//     // $stockIn = stock::where(['inventory_id'=>$request->inventory_id,'stock_type'=>1])->sum('stock_quantity');
+//     // $stockOut = stock::where(['inventory_id'=>$request->inventory_id,'stock_type'=>2])->sum('stock_quantity');
+//     $availableStock = calculateStock($request->inventory_id);
 
-    if ($availableStock < $request->stock_quantity) {
-        return redirect()->back()->withErrors(['error' => 'Stock Out quantity exceeds available stock.']);
-    }
-    Stock::create($validated);
-    return redirect()->route('admin.stock.index');
-}
+//     if ($availableStock < $request->stock_quantity) {
+//         return redirect()->back()->withErrors(['error' => 'Stock Out quantity exceeds available stock.']);
+//     }
+//     Stock::create($validated);
+//     return redirect()->route('admin.stock.index');
+// }
 
 
     public function show(Request $request, Inventory $inventory)

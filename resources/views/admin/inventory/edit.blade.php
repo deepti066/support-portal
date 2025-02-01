@@ -32,7 +32,7 @@
                 @endif
             </div>
             
-            <div class="form-group">
+            {{-- <div class="form-group">
                 <label for="invoice_no">{{ trans('cruds.inventory.fields.invoice_no') }}</label>
                 <input class="form-control {{ $errors->has('invoice_no') ? 'is-invalid' : '' }}" type="text" name="invoice_no" id="invoice_no" value="{{ old('invoice_no', $inventory->invoice_no) }}">
                 @if($errors->has('invoice_no'))
@@ -45,7 +45,7 @@
                 @if($errors->has('invoice_date'))
                     <span class="text-danger">{{ $errors->first('invoice_date') }}</span>
                 @endif
-            </div>
+            </div> --}}
             <div class="form-group">
                 <label for="make">{{ trans('cruds.inventory.fields.make') }}</label>
                 <input class="form-control {{ $errors->has('make') ? 'is-invalid' : '' }}" type="text" name="make" id="make" value="{{ old('make', $inventory->make) }}">
@@ -76,7 +76,7 @@
                     <span class="text-danger">{{ $errors->first('asset_description') }}</span>
                 @endif
             </div>
-            <div class="form-group">
+            {{-- <div class="form-group">
                 <label for="stock_in_quantity">{{ trans('cruds.inventory.fields.stock_in_quantity') }}</label>
                 <input class="form-control {{ $errors->has('stock_in_quantity') ? 'is-invalid' : '' }}" type="text" name="stock_in_quantity" id="stock_in_quantity" value="{{ old('stock_in_quantity', $inventory->stock_in_quantity) }}">
                 @if($errors->has('stock_in_quantity'))
@@ -124,7 +124,7 @@
                 @if($errors->has('used_by'))
                     <span class="text-danger">{{ $errors->first('used_by') }}</span>
                 @endif
-            </div>
+            </div> --}}
             <div class="form-group">
                 <button class="btn btn-primary" type="submit">
                     {{ trans('global.update') }}

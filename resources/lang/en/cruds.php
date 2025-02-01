@@ -193,9 +193,9 @@ return [
                 'invoice_no'    => 'Invoice_No',
                 'model'         => 'Model',
                 'asset_description' => 'Asset_Description',
-                'stock_out_quantity'    => 'Stock_Out_Quantity',
-                'stock_out_date'        => 'Stock_Out_Date',
-                'balance_quantity'      => 'Balance_Quantity',
+                'stock_out_quantity'    => 'Stock_Quantity',
+                'stock_out_date'        => 'Stock_Date',
+                'balance_quantity'      => 'Stock_Type',
                 'used_in'               => 'Used_In',
                 'used_by'               => 'Used_By',
             ]

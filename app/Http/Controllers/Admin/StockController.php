@@ -18,9 +18,10 @@ class StockController extends Controller
         if ($request->ajax()) {
             $query = Stock::with('inventory')->select("*");
 
-            if ($request->has('model_id') && $request->model_id != '') {
-                $query->where('model', $request->model_id);
-            
+            if ($request->has('model') && $request->model != '') {
+                $query->whereHas('inventory', function ($q) use ($request) {
+                    $q->where('model', $request->model);
+                });
             }
 
 
@@ -60,10 +61,9 @@ class StockController extends Controller
             });
 
             $table->editColumn('invoice_date', function ($row) {
-                return $row->invoice_date ? $row->invoice_date : "";
+                return $row->inventory->invoice_date ? $row->inventory->invoice_date : "";
             });
             $table->editColumn('model', function ($row) {
-                
                 return $row->inventory->models ? $row->inventory->models->name : "";
             });
     
@@ -140,6 +140,7 @@ public function stockIn(Request $request)
         'inventory_id'         => 'nullable|integer',
         'stock_type'           => 'nullable|integer',
         'invoice_no'           => 'nullable|string|max:255',
+        // 'invoice_date'         => 'nullable|string|max:255',
         'stock_quantity'       => 'nullable|integer|min:0',
         'stock_date'           => 'nullable|date',
     ]);
@@ -174,7 +175,7 @@ public function stockOut(Request $request)
     public function show(Request $request, Stock $stock)
     {
         abort_if(Gate::denies('stock_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
+        
         return view('admin.stock.show', compact('stock'));
     }
     

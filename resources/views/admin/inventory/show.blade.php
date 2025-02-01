@@ -37,14 +37,14 @@
                     <th>{{ trans('cruds.inventory.fields.product_name') }}</th>
                     <td>{{ $inventory->product_name }}</td>
                 </tr>
-                <tr>
+                {{-- <tr>
                     <th>{{ trans('cruds.inventory.fields.invoice_no') }}</th>
                     <td>{{ $inventory->invoice_no }}</td>
                 </tr>
                 <tr>
                     <th>{{ trans('cruds.inventory.fields.invoice_date') }}</th>
                     <td>{{ $inventory->invoice_date }}</td>
-                </tr>
+                </tr> --}}
                 <tr>
                     <th>{{ trans('cruds.inventory.fields.make') }}</th>
                     <td>{{ $inventory->make }}</td>
@@ -57,7 +57,7 @@
                     <th>{{ trans('cruds.inventory.fields.asset_description') }}</th>
                     <td>{{ $inventory->asset_description }}</td>
                 </tr>
-                <tr>
+                {{-- <tr>
                     <th>{{ trans('cruds.inventory.fields.stock_in_quantity') }}</th>
                     <td>{{ $inventory->stock_in_quantity }}</td>
                 </tr>
@@ -80,7 +80,7 @@
                 <tr>
                     <th>{{ trans('cruds.inventory.fields.used_by') }}</th>
                     <td>{{ $inventory->used_by }}</td>
-                </tr>
+                </tr> --}}
             </tbody>
         </table>
         <a class="btn btn-primary" href="{{ route('admin.inventory.index') }}">
@@ -100,7 +100,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <!-- Stock Form -->
+                        <!-- Stock In Form -->
                         <form method="POST" action="{{ route('admin.stock.stockIn') }}">
                             @csrf
 
@@ -109,6 +109,10 @@
                             <div class="mb-3">
                                 <label class="form-label">Invoice Number</label>
                                 <input type="text" name="invoice_no" class="form-control" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Invoice Date</label>
+                                <input type="date" name="invoice_date" class="form-control" required>
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">Quantity</label>
