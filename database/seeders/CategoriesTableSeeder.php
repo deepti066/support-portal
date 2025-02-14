@@ -3,6 +3,8 @@ namespace Database\Seeders;
 
 use App\Category;
 use Illuminate\Database\Seeder;
+use Faker\Factory as Faker;
+
 
 class CategoriesTableSeeder extends Seeder
 {
@@ -13,17 +15,17 @@ class CategoriesTableSeeder extends Seeder
      */
     public function run()
     {
-        // $faker = Faker\Factory::create();
-        // $categories = [
-        //     "Uncategorized", "Billing/Payments", "Technical question"
-        // ];
+        // $faker = Fake\Factory::create();
+         $categories = [
+             "Uncategorized", "Billing/Payments", "Technical question","Technical Issue"
+         ];
 
-        // foreach($categories as $category)
-        // {
-        //     Category::create([
-        //         'name'  => $category,
-        //         'color' => $faker->hexcolor
-        //     ]);
-        // }
+         foreach($categories as $category)
+         {
+             Category::create([
+                 'name'  => $category,
+                 'color' => '#000000'
+             ]);
+         }
     }
 }
